@@ -21,6 +21,9 @@
                     fontFamily: {
                         'sans': ['Space Grotesk', 'sans-serif'],
                         'mono': ['JetBrains Mono', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': 'linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px)',
                     }
                 }
             }
@@ -65,7 +68,7 @@
         /* INTRO */
         #intro-overlay { position: fixed; inset: 0; background: #030305; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 1s ease 3s; }
         .draw-logo { font-size: 6rem; font-weight: 700; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.1); position: relative; }
-        .draw-logo::after { content: 'afx.ai'; position: absolute; left: 0; top: 0; width: 0; color: #f59e0b; -webkit-text-stroke: 0px; overflow: hidden; animation: draw 2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.5s; filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.6)); }
+        .draw-logo::before { content: 'afx.ai'; position: absolute; left: 0; top: 0; width: 0; color: #f59e0b; -webkit-text-stroke: 0px; overflow: hidden; animation: draw 2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.5s; filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.6)); }
         @keyframes draw { to { width: 100%; } }
 
         /* MANIFESTO */
@@ -77,6 +80,10 @@
         .btn-action:active { transform: scale(0.95); }
         .price-tag { font-family: 'JetBrains Mono', monospace; color: #f59e0b; font-weight: bold; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+
+        /* FIXED AUTH OVERLAY CSS */
+        #auth-modal { position: fixed; inset: 0; z-index: 2000; display: none; align-items: center; justify-content: center; bg-black/90 backdrop-blur-2xl; background: rgba(0,0,0,0.9); }
+        #auth-modal.active { display: flex; }
     </style>
 </head>
 <body class="antialiased selection:bg-amber-hologram selection:text-black">
@@ -88,11 +95,11 @@
     <!-- Intro Sequence -->
     <div id="intro-overlay">
         <h1 class="draw-logo">afx.ai</h1>
-        <p class="font-mono text-[10px] text-gray-600 uppercase tracking-[0.6em] mt-10 animate-pulse">Initializing Neural Headquarters...</p>
+        <p class="font-mono text-[10px] text-gray-600 uppercase tracking-[0.6em] mt-10 animate-pulse">Establishing Neural Headquarters...</p>
     </div>
 
     <!-- Auth Node -->
-    <div id="auth-modal" class="fixed inset-0 z-[2000] hidden items-center justify-center bg-black/90 backdrop-blur-2xl px-4">
+    <div id="auth-modal" class="px-4">
         <div class="holo-glass p-12 rounded-[40px] w-full max-w-md border-amber-hologram/20 relative overflow-hidden">
             <div class="scanline"></div>
             <h2 id="auth-title" class="text-4xl font-bold mb-2 tracking-tighter">Initialize Link</h2>
@@ -117,10 +124,12 @@
                 <span class="font-bold text-2xl tracking-tighter group-hover:text-amber-hologram transition-colors">afx<span class="text-amber-hologram">.ai</span></span>
             </div>
             
-            <div class="hidden lg:flex gap-12 font-mono text-[10px] uppercase tracking-[0.4em] font-bold text-gray-500">
+            <div class="hidden lg:flex gap-10 font-mono text-[10px] uppercase tracking-[0.4em] font-bold text-gray-500">
                 <a href="#web" class="hover:text-amber-hologram transition-colors">/Web</a>
                 <a href="#apps" class="hover:text-amber-hologram transition-colors">/Apps</a>
                 <a href="#agents" class="hover:text-amber-hologram transition-colors">/Agents</a>
+                <a href="#automation" class="hover:text-amber-hologram transition-colors">/Auto</a>
+                <a href="#neural" class="hover:text-amber-hologram transition-colors">/Neural</a>
                 <a href="#vision" class="hover:text-amber-hologram transition-colors">/Vision</a>
             </div>
 
@@ -141,9 +150,7 @@
         </div>
     </nav>
 
-    <!-- Content Engine -->
     <main class="relative z-10">
-        
         <!-- HOME VIEW -->
         <div id="home-view" class="view-section">
             <!-- Hero -->
@@ -155,7 +162,7 @@
                     </div>
                     <h1 class="text-7xl md:text-9xl font-bold tracking-tighter leading-[0.85] mb-10">
                         Architecting <br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-hologram to-yellow-200" style="text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);">The Sentient Web.</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-hologram to-yellow-200 text-glow">The Sentient Web.</span>
                     </h1>
                     <p class="text-lg md:text-2xl text-gray-500 font-mono max-w-3xl mx-auto leading-relaxed mb-16 uppercase tracking-[0.2em]">Deployment of high-end digital real estate & fully autonomous AI workforces.</p>
                     <div class="flex flex-col sm:flex-row gap-8 justify-center">
@@ -167,35 +174,16 @@
 
             <!-- SECTOR GRIDS -->
             <div class="max-w-7xl mx-auto px-6 space-y-32">
-                
                 <!-- 01 WEB -->
                 <section id="web">
                     <div class="flex justify-between items-end mb-16 border-b border-white/5 pb-10">
-                        <div>
-                            <h2 class="text-6xl font-bold tracking-tighter">Web Architecture</h2>
-                            <p class="font-mono text-xs text-teal-data uppercase tracking-[0.4em] mt-4">Structural Frontend Deployment</p>
-                        </div>
+                        <div><h2 class="text-6xl font-bold tracking-tighter">Web Architecture</h2><p class="font-mono text-xs text-teal-data uppercase tracking-[0.4em] mt-4">Structural Frontend Deployment</p></div>
                         <span class="text-8xl font-bold text-white/5 font-mono">/01</span>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="holo-card p-12 rounded-[40px] flex flex-col">
-                            <div class="flex justify-between items-start mb-12"><span class="tier-badge">Simple Node</span><span class="price-tag">$19</span></div>
-                            <h3 class="text-3xl font-bold mb-6 uppercase">Standard</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">High-performance static frontend built for extreme speed and SEO dominance.</p>
-                            <button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Deploy Node</button>
-                        </div>
-                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-white/20">
-                            <div class="flex justify-between items-start mb-12"><span class="tier-badge">Signature Node</span><span class="price-tag">$49</span></div>
-                            <h3 class="text-3xl font-bold mb-6 uppercase">Agent-Managed</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Full-stack platform integrated with a specialized Agent for 24/7 maintenance.</p>
-                            <button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Deploy Node</button>
-                        </div>
-                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-amber-hologram/40 shadow-[0_0_40px_rgba(245,158,11,0.1)]">
-                            <div class="flex justify-between items-start mb-12"><span class="tier-badge tier-premium">AFX Premium</span><span class="price-tag">$99</span></div>
-                            <h3 class="text-3xl font-bold mb-6 uppercase text-amber-hologram">Prompt-Editable</h3>
-                            <p class="text-gray-300 text-sm leading-relaxed mb-10 flex-grow">Mutate your entire UI, layout, and logic live via natural language prompts.</p>
-                            <button class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest shadow-xl">Deploy Ecosystem</button>
-                        </div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Simple Node</span><span class="price-tag">$19</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Standard</h3><p class="text-gray-400 text-sm leading-relaxed mb-10 flex-grow">High-performance static frontend built for extreme speed and SEO dominance.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Deploy Node</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-white/20"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Signature Node</span><span class="price-tag">$49</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Agent-Managed</h3><p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Full-stack platform integrated with a specialized Agent for 24/7 maintenance.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Deploy Node</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-amber-hologram/40 shadow-[0_0_40px_rgba(245,158,11,0.1)]"><div class="flex justify-between items-start mb-12"><span class="tier-badge tier-premium">AFX Premium</span><span class="price-tag">$99</span></div><h3 class="text-3xl font-bold mb-6 uppercase text-amber-hologram">Prompt-Editable</h3><p class="text-gray-300 text-sm leading-relaxed mb-10 flex-grow">Mutate your entire UI, layout, and logic live via natural language prompts.</p><button class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest shadow-xl">Deploy Ecosystem</button></div>
                     </div>
                 </section>
 
@@ -203,61 +191,25 @@
                 <section id="apps">
                     <div class="flex justify-between items-end mb-16 border-b border-white/5 pb-10">
                         <span class="text-8xl font-bold text-white/5 font-mono">/02</span>
-                        <div class="text-right">
-                            <h2 class="text-6xl font-bold tracking-tighter">Mobile Engineering</h2>
-                            <p class="font-mono text-xs text-amber-hologram uppercase tracking-[0.4em] mt-4">iOS & Android Node Structures</p>
-                        </div>
+                        <div class="text-right"><h2 class="text-6xl font-bold tracking-tighter">Mobile Engineering</h2><p class="font-mono text-xs text-amber-hologram uppercase tracking-[0.4em] mt-4">iOS & Android Node Structures</p></div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="holo-card p-12 rounded-[40px] flex flex-col">
-                            <div class="flex justify-between items-start mb-12"><span class="tier-badge">Simple Node</span><span class="price-tag">$29</span></div>
-                            <h3 class="text-3xl font-bold mb-6 uppercase">Native Core</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Native performance nodes with immersive fluid motion design.</p>
-                            <button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Initialize</button>
-                        </div>
-                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-white/20">
-                            <div class="flex justify-between items-start mb-12"><span class="tier-badge">Signature Node</span><span class="price-tag">$69</span></div>
-                            <h3 class="text-3xl font-bold mb-6 uppercase">Sync Node</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Cross-platform integration with real-time cloud data and user synchronization.</p>
-                            <button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Initialize</button>
-                        </div>
-                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-amber-hologram/40 shadow-[0_0_40px_rgba(245,158,11,0.1)]">
-                            <div class="flex justify-between items-start mb-12"><span class="tier-badge tier-premium">AFX Premium</span><span class="price-tag">$149</span></div>
-                            <h3 class="text-3xl font-bold mb-6 uppercase text-amber-hologram">Agentic Mobile</h3>
-                            <p class="text-gray-300 text-sm leading-relaxed mb-10 flex-grow">Self-evolving mobile code that rewrites features based on verbal directives.</p>
-                            <button class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest shadow-xl">Initialize Node</button>
-                        </div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Simple Node</span><span class="price-tag">$29</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Native Core</h3><p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Native performance nodes with immersive fluid motion design.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Initialize</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-white/20"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Signature Node</span><span class="price-tag">$69</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Sync Node</h3><p class="text-gray-400 text-sm leading-relaxed mb-10 flex-grow">Cross-platform integration with real-time cloud data and user synchronization.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Initialize</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-amber-hologram/40 shadow-[0_0_40px_rgba(245,158,11,0.1)]"><div class="flex justify-between items-start mb-12"><span class="tier-badge tier-premium">AFX Premium</span><span class="price-tag">$149</span></div><h3 class="text-3xl font-bold mb-6 uppercase text-amber-hologram">Agentic Mobile</h3><p class="text-gray-300 text-sm leading-relaxed mb-10 flex-grow">Self-evolving mobile code that rewrites features based on verbal directives.</p><button class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest shadow-xl">Initialize Node</button></div>
                     </div>
                 </section>
 
                 <!-- 03 WORKFORCE -->
                 <section id="agents">
                     <div class="flex justify-between items-end mb-16 border-b border-white/5 pb-10">
-                        <div>
-                            <h2 class="text-6xl font-bold tracking-tighter">AI Workforce</h2>
-                            <p class="font-mono text-xs text-teal-data uppercase tracking-[0.4em] mt-4">Agentic Engineering Workforce</p>
-                        </div>
+                        <div><h2 class="text-6xl font-bold tracking-tighter">AI Workforce</h2><p class="font-mono text-xs text-teal-data uppercase tracking-[0.4em] mt-4">Agentic Engineering Workforce</p></div>
                         <span class="text-8xl font-bold text-white/5 font-mono">/03</span>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="holo-card p-12 rounded-[40px] flex flex-col">
-                            <div class="flex justify-between items-start mb-12"><span class="tier-badge">Task Node</span><span class="price-tag">$12</span></div>
-                            <h3 class="text-3xl font-bold mb-6 uppercase">Simple Agent</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Automate one specific task with 100% accuracy and extreme speed.</p>
-                            <button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Summon Node</button>
-                        </div>
-                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-white/20">
-                            <div class="flex justify-between items-start mb-12"><span class="tier-badge">Context Node</span><span class="price-tag">$39</span></div>
-                            <h3 class="text-3xl font-bold mb-6 uppercase">Signature Agent</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Equipped with deep vector memory and multi-step reasoning capabilities.</p>
-                            <button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Summon Node</button>
-                        </div>
-                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-amber-hologram/40 shadow-[0_0_40px_rgba(245,158,11,0.1)]">
-                            <div class="flex justify-between items-start mb-12"><span class="tier-badge tier-premium">Premium Agent</span><span class="price-tag">$89</span></div>
-                            <h3 class="text-3xl font-bold mb-6 uppercase text-amber-hologram">Autonomous Exec</h3>
-                            <p class="text-gray-300 text-sm leading-relaxed mb-10 flex-grow">The ultimate employee. Autonomous decision making and API orchestration.</p>
-                            <button class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest shadow-xl">Summon Node</button>
-                        </div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Task Node</span><span class="price-tag">$12</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Simple Agent</h3><p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Automate one specific task with 100% accuracy and extreme speed.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Summon Node</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-white/20"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Context Node</span><span class="price-tag">$39</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Signature Agent</h3><p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Equipped with deep vector memory and multi-step reasoning capabilities.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Summon Node</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-amber-hologram/40 shadow-[0_0_40px_rgba(245,158,11,0.1)]"><div class="flex justify-between items-start mb-12"><span class="tier-badge tier-premium">Premium Agent</span><span class="price-tag">$89</span></div><h3 class="text-3xl font-bold mb-6 uppercase text-amber-hologram">Autonomous Exec</h3><p class="text-gray-300 text-sm leading-relaxed mb-10 flex-grow">The ultimate employee. Autonomous decision making and API orchestration.</p><button class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest shadow-xl">Summon Node</button></div>
                     </div>
                 </section>
 
@@ -265,65 +217,29 @@
                 <section id="automation">
                     <div class="flex justify-between items-end mb-16 border-b border-white/5 pb-10">
                         <span class="text-8xl font-bold text-white/5 font-mono">/04</span>
-                        <div class="text-right">
-                            <h2 class="text-6xl font-bold tracking-tighter">Operational Automation</h2>
-                            <p class="font-mono text-xs text-amber-hologram uppercase tracking-[0.4em] mt-4">Enterprise Automation & Scale</p>
-                        </div>
+                        <div class="text-right"><h2 class="text-6xl font-bold tracking-tighter">Operational Auto</h2><p class="font-mono text-xs text-amber-hologram uppercase tracking-[0.4em] mt-4">Enterprise Automation & Scale</p></div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="holo-card p-12 rounded-[40px] flex flex-col">
-                            <div class="flex justify-between items-start mb-12"><span class="tier-badge">Growth Node</span><span class="price-tag">$19</span></div>
-                            <h3 class="text-3xl font-bold mb-6 uppercase">Viral Engine</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Autonomous YouTube/Social Media pipelines for mass engagement.</p>
-                            <button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Activate</button>
-                        </div>
-                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-white/20">
-                            <div class="flex justify-between items-start mb-12"><span class="tier-badge">Enterprise Node</span><span class="price-tag">$55</span></div>
-                            <h3 class="text-3xl font-bold mb-6 uppercase">Data Synapse</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Deep extraction and processing of internal company data systems.</p>
-                            <button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Activate</button>
-                        </div>
-                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-amber-hologram/40 shadow-[0_0_40px_rgba(245,158,11,0.1)]">
-                            <div class="flex justify-between items-start mb-12"><span class="tier-badge tier-premium">Scale Node</span><span class="price-tag">$115</span></div>
-                            <h3 class="text-3xl font-bold mb-6 uppercase text-amber-hologram">Orchestration</h3>
-                            <p class="text-gray-300 text-sm leading-relaxed mb-10 flex-grow">Mass lead-gen and automated infrastructure scaling control layer.</p>
-                            <button class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest shadow-xl">Activate</button>
-                        </div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Growth Node</span><span class="price-tag">$19</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Viral Engine</h3><p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Autonomous YouTube/Social Media pipelines for mass engagement.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Activate</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-white/20"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Data Node</span><span class="price-tag">$55</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Data Synapse</h3><p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Deep extraction and processing of internal company data systems.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Activate</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-amber-hologram/40 shadow-[0_0_40px_rgba(245,158,11,0.1)]"><div class="flex justify-between items-start mb-12"><span class="tier-badge tier-premium">Scale Node</span><span class="price-tag">$115</span></div><h3 class="text-3xl font-bold mb-6 uppercase text-amber-hologram">Orchestration</h3><p class="text-gray-300 text-sm leading-relaxed mb-10 flex-grow">Mass lead-gen and automated infrastructure scaling control layer.</p><button class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest shadow-xl">Activate</button></div>
                     </div>
                 </section>
 
                 <!-- 05 NEURAL -->
                 <section id="neural">
                     <div class="flex justify-between items-end mb-16 border-b border-white/5 pb-10">
-                        <div>
-                            <h2 class="text-6xl font-bold tracking-tighter">Neural Synthesis</h2>
-                            <p class="font-mono text-xs text-teal-data uppercase tracking-[0.4em] mt-4">Synthetic Aesthetic Pipelines</p>
-                        </div>
+                        <div><h2 class="text-6xl font-bold tracking-tighter">Neural Synthesis</h2><p class="font-mono text-xs text-teal-data uppercase tracking-[0.4em] mt-4">Synthetic Aesthetic Pipelines</p></div>
                         <span class="text-8xl font-bold text-white/5 font-mono">/05</span>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="holo-card p-12 rounded-[40px] flex flex-col">
-                            <div class="flex justify-between items-start mb-12"><span class="tier-badge">Aesthetic Node</span><span class="price-tag">$7</span></div>
-                            <h3 class="text-3xl font-bold mb-6 uppercase">Visuals</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Studio-quality AI imagery and consistent brand asset synthesis.</p>
-                            <button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Generate</button>
-                        </div>
-                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-white/20">
-                            <div class="flex justify-between items-start mb-12"><span class="tier-badge">Motion Node</span><span class="price-tag">$25</span></div>
-                            <h3 class="text-3xl font-bold mb-6 uppercase">Cinematics</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Cinematic generative video pipelines and high-end synthetic avatars.</p>
-                            <button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Generate</button>
-                        </div>
-                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-amber-hologram/40 shadow-[0_0_40px_rgba(245,158,11,0.1)]">
-                            <div class="flex justify-between items-start mb-12"><span class="tier-badge tier-premium">Narrative Node</span><span class="price-tag">$15</span></div>
-                            <h3 class="text-3xl font-bold mb-6 uppercase text-amber-hologram">Recursive Loops</h3>
-                            <p class="text-gray-300 text-sm leading-relaxed mb-10 flex-grow">Self-sustaining viral content loops designed for 100% engagement.</p>
-                            <button class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest shadow-xl">Boot Engine</button>
-                        </div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Visual Node</span><span class="price-tag">$7</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Visuals</h3><p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Studio-quality AI imagery and consistent brand asset synthesis.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Generate</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-white/20"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Motion Node</span><span class="price-tag">$25</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Cinematics</h3><p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Cinematic generative video pipelines and high-end synthetic avatars.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Generate</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-amber-hologram/40 shadow-[0_0_40px_rgba(245,158,11,0.1)]"><div class="flex justify-between items-start mb-12"><span class="tier-badge tier-premium">Narrative Node</span><span class="price-tag">$15</span></div><h3 class="text-3xl font-bold mb-6 uppercase text-amber-hologram">Recursive Loops</h3><p class="text-gray-300 text-sm leading-relaxed mb-10 flex-grow">Self-sustaining viral content loops designed for 100% engagement.</p><button class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest shadow-xl">Boot Engine</button></div>
                     </div>
                 </section>
 
-                <!-- VISION / MANIFESTO (Solving the Empty Space) -->
+                <!-- VISION / MANIFESTO -->
                 <section id="vision" class="py-20 border-t border-white/10 relative overflow-hidden">
                     <div class="scanline"></div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
@@ -340,36 +256,16 @@
                                 <h4 class="founder-signature text-3xl">Syed Ahmed Afroz Shah</h4>
                             </div>
                         </div>
-                        <div class="holo-glass p-1 rounded-[50px]">
-                            <div class="holo-card p-12 rounded-[48px] bg-obsidian/80">
-                                <h3 class="text-2xl font-bold mb-8 uppercase tracking-tighter">Why AFX Node?</h3>
-                                <ul class="space-y-6">
-                                    <li class="flex gap-5">
-                                        <div class="w-10 h-10 rounded-full bg-teal-data/10 flex items-center justify-center text-teal-data"><i data-lucide="zap" class="w-5 h-5"></i></div>
-                                        <div><h4 class="font-bold text-sm uppercase">Zero Latency Sync</h4><p class="text-xs text-gray-500 mt-1">Our nodes are optimized for real-time data orchestration.</p></div>
-                                    </li>
-                                    <li class="flex gap-5">
-                                        <div class="w-10 h-10 rounded-full bg-amber-hologram/10 flex items-center justify-center text-amber-hologram"><i data-lucide="bot" class="w-5 h-5"></i></div>
-                                        <div><h4 class="font-bold text-sm uppercase">Autonomous Executives</h4><p class="text-xs text-gray-500 mt-1">Self-refactoring agents that manage your API workflows.</p></div>
-                                    </li>
-                                    <li class="flex gap-5">
-                                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
-                                        <div><h4 class="font-bold text-sm uppercase">Neural Security</h4><p class="text-xs text-gray-500 mt-1">Advanced identity link encryption for every node.</p></div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        <div class="holo-glass p-1 rounded-[50px]"><div class="holo-card p-12 rounded-[48px] bg-obsidian/80"><h3 class="text-2xl font-bold mb-8 uppercase tracking-tighter">Why AFX Node?</h3><ul class="space-y-6"><li class="flex gap-5"><div class="w-10 h-10 rounded-full bg-teal-data/10 flex items-center justify-center text-teal-data"><i data-lucide="zap" class="w-5 h-5"></i></div><div><h4 class="font-bold text-sm uppercase">Zero Latency Sync</h4><p class="text-xs text-gray-500 mt-1">Our nodes are optimized for real-time data orchestration.</p></div></li><li class="flex gap-5"><div class="w-10 h-10 rounded-full bg-amber-hologram/10 flex items-center justify-center text-amber-hologram"><i data-lucide="bot" class="w-5 h-5"></i></div><div><h4 class="font-bold text-sm uppercase">Autonomous Executives</h4><p class="text-xs text-gray-500 mt-1">Self-refactoring agents that manage your API workflows.</p></div></li><li class="flex gap-5"><div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white"><i data-lucide="shield-check" class="w-5 h-5"></i></div><div><h4 class="font-bold text-sm uppercase">Neural Security</h4><p class="text-xs text-gray-500 mt-1">Advanced identity link encryption for every node.</p></div></li></ul></div></div>
                     </div>
                 </section>
             </div>
 
-            <!-- HOME FOOTER (Absolute End) -->
-            <footer class="py-20 border-t border-white/5 text-center bg-obsidian-light mt-20 relative z-20">
+            <!-- HOME FOOTER -->
+            <footer class="py-20 border-t border-white/5 text-center bg-obsidian-light relative z-20">
                 <div class="max-w-7xl mx-auto px-6">
                     <p class="font-mono text-[10px] text-amber-hologram uppercase tracking-[0.5em] mb-4">Directed & Architected by Syed Ahmed Afroz Shah</p>
-                    <p class="font-mono text-[9px] text-gray-600 uppercase tracking-[0.3em]">
-                        &copy; 2026 AFX.AI • Karachi Tech Hub Operational Nexus. All Rights Reserved.
-                    </p>
+                    <p class="font-mono text-[9px] text-gray-600 uppercase tracking-[0.3em]">&copy; 2026 AFX.AI • All Rights Reserved.</p>
                 </div>
             </footer>
         </div>
@@ -380,148 +276,57 @@
                 <header class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10 mb-20 border-b border-white/5 pb-16">
                     <div>
                         <h2 class="text-7xl font-bold tracking-tighter uppercase mb-4">Node Telemetry</h2>
-                        <div class="flex items-center gap-4">
-                            <div class="w-2 h-2 bg-amber-hologram rounded-full animate-ping"></div>
-                            <p class="font-mono text-xs text-amber-hologram uppercase tracking-[0.5em]">Real-time Operational Link Established</p>
-                        </div>
+                        <div class="flex items-center gap-4"><div class="w-2 h-2 bg-amber-hologram rounded-full animate-ping"></div><p class="font-mono text-xs text-amber-hologram uppercase tracking-[0.5em]">Operational Link Established</p></div>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 w-full lg:w-auto">
-                        <div class="holo-glass p-6 rounded-3xl border-teal-data/20">
-                            <p class="font-mono text-[9px] text-gray-500 uppercase tracking-widest mb-2">Neural Load</p>
-                            <p class="text-3xl font-bold font-mono text-teal-data">14.2%</p>
-                            <div class="stat-bar mt-3"><div class="stat-progress" style="width: 14.2%; background: #2dd4bf; box-shadow: 0 0 10px #2dd4bf;"></div></div>
-                        </div>
-                        <div class="holo-glass p-6 rounded-3xl border-amber-hologram/20">
-                            <p class="font-mono text-[9px] text-gray-500 uppercase tracking-widest mb-2">Memory Sync</p>
-                            <p class="text-3xl font-bold font-mono text-amber-hologram">0.02ms</p>
-                            <div class="stat-bar mt-3"><div class="stat-progress" style="width: 88%"></div></div>
-                        </div>
-                        <div class="holo-glass p-6 rounded-3xl border-white/5">
-                            <p class="font-mono text-[9px] text-gray-500 uppercase tracking-widest mb-2">Agent Clusters</p>
-                            <p class="text-3xl font-bold font-mono text-white">1,204</p>
-                            <div class="stat-bar mt-3"><div class="stat-progress" style="width: 65%; background: #fff; box-shadow: none;"></div></div>
-                        </div>
-                        <div class="holo-glass p-6 rounded-3xl border-white/5">
-                            <p class="font-mono text-[9px] text-gray-500 uppercase tracking-widest mb-2">Node Uptime</p>
-                            <p class="text-3xl font-bold font-mono text-white">99.9%</p>
-                            <div class="stat-bar mt-3"><div class="stat-progress" style="width: 99.9%; background: #fff; box-shadow: none;"></div></div>
-                        </div>
+                        <div class="holo-glass p-6 rounded-3xl border-teal-data/20"><p class="font-mono text-[9px] text-gray-500 uppercase tracking-widest mb-2">Neural Load</p><p class="text-3xl font-bold font-mono text-teal-data">14.2%</p><div class="stat-bar mt-3"><div class="stat-progress" style="width: 14.2%; background: #2dd4bf;"></div></div></div>
+                        <div class="holo-glass p-6 rounded-3xl border-amber-hologram/20"><p class="font-mono text-[9px] text-gray-500 uppercase tracking-widest mb-2">Memory Sync</p><p class="text-3xl font-bold font-mono text-amber-hologram">0.02ms</p><div class="stat-bar mt-3"><div class="stat-progress" style="width: 88%"></div></div></div>
+                        <div class="holo-glass p-6 rounded-3xl border-white/5"><p class="font-mono text-[9px] text-gray-500 uppercase tracking-widest mb-2">Agent clusters</p><p class="text-3xl font-bold font-mono text-white">1,204</p><div class="stat-bar mt-3"><div class="stat-progress" style="width: 65%; background: #fff;"></div></div></div>
+                        <div class="holo-glass p-6 rounded-3xl border-white/5"><p class="font-mono text-[9px] text-gray-500 uppercase tracking-widest mb-2">Node Uptime</p><p class="text-3xl font-bold font-mono text-white">99.9%</p><div class="stat-bar mt-3"><div class="stat-progress" style="width: 99.9%; background: #fff;"></div></div></div>
                     </div>
                 </header>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                    <!-- Left Column -->
                     <div class="lg:col-span-3 space-y-8">
-                        <div class="holo-glass p-10 rounded-[40px] text-center border-t-2 border-t-amber-hologram relative overflow-hidden">
-                            <div class="scanline"></div>
-                            <div class="w-24 h-24 rounded-full bg-amber-hologram/10 border-2 border-amber-hologram/30 flex items-center justify-center mx-auto mb-8">
-                                <i data-lucide="user" class="w-10 h-10 text-amber-hologram"></i>
-                            </div>
-                            <h3 id="dash-op-name" class="text-2xl font-bold mb-2 uppercase tracking-tighter">Operator_01</h3>
-                            <span class="font-mono text-[9px] text-amber-hologram/60 uppercase tracking-[0.3em]">Clearance: root_access</span>
-                            <div class="mt-10 grid grid-cols-2 gap-4 border-t border-white/5 pt-10">
-                                <div><p class="text-[8px] text-gray-600 font-mono uppercase mb-1">Credits</p><p class="text-xl font-bold font-mono text-white">12.5k</p></div>
-                                <div><p class="text-[8px] text-gray-600 font-mono uppercase mb-1">Nodes</p><p class="text-xl font-bold font-mono text-white">08</p></div>
-                            </div>
-                        </div>
-                        <nav class="holo-glass rounded-[30px] p-2 space-y-1 font-mono text-[10px] font-bold uppercase tracking-widest">
-                            <button class="w-full text-left p-5 rounded-2xl bg-amber-hologram text-obsidian flex items-center gap-4"><i data-lucide="monitor" class="w-4 h-4"></i> Core Overview</button>
-                            <button class="w-full text-left p-5 rounded-2xl hover:bg-white/5 text-gray-500 flex items-center gap-4 transition-all"><i data-lucide="activity" class="w-4 h-4"></i> Live Loops</button>
-                            <button class="w-full text-left p-5 rounded-2xl hover:bg-white/5 text-gray-500 flex items-center gap-4 transition-all"><i data-lucide="box" class="w-4 h-4"></i> Deployments</button>
-                            <button onclick="logout()" class="w-full text-left p-5 rounded-2xl hover:bg-red-500/10 text-red-500 flex items-center gap-4 transition-all mt-4 border-t border-white/5 pt-10"><i data-lucide="power" class="w-4 h-4"></i> Disconnect</button>
-                        </nav>
+                        <div class="holo-glass p-10 rounded-[40px] text-center border-t-2 border-t-amber-hologram relative overflow-hidden"><div class="scanline"></div><div class="w-24 h-24 rounded-full bg-amber-hologram/10 border-2 border-amber-hologram/30 flex items-center justify-center mx-auto mb-8"><i data-lucide="user" class="w-10 h-10 text-amber-hologram"></i></div><h3 id="dash-op-name" class="text-2xl font-bold mb-2 uppercase tracking-tighter">Operator_01</h3><span class="font-mono text-[9px] text-amber-hologram/60 uppercase tracking-[0.3em]">Clearance: root_access</span><div class="mt-10 grid grid-cols-2 gap-4 border-t border-white/5 pt-10"><div><p class="text-[8px] text-gray-600 font-mono uppercase mb-1">Credits</p><p class="text-xl font-bold font-mono text-white">12.5k</p></div><div><p class="text-[8px] text-gray-600 font-mono uppercase mb-1">Nodes</p><p class="text-xl font-bold font-mono text-white">08</p></div></div></div>
+                        <nav class="holo-glass rounded-[30px] p-2 space-y-1 font-mono text-[10px] font-bold uppercase tracking-widest"><button class="w-full text-left p-5 rounded-2xl bg-amber-hologram text-obsidian flex items-center gap-4 font-bold uppercase"><i data-lucide="monitor" class="w-4 h-4"></i> Overview</button><button class="w-full text-left p-5 rounded-2xl hover:bg-white/5 text-gray-500 flex items-center gap-4 transition-all font-bold uppercase"><i data-lucide="activity" class="w-4 h-4"></i> Loops</button><button onclick="logout()" class="w-full text-left p-5 rounded-2xl hover:bg-red-500/10 text-red-500 flex items-center gap-4 transition-all mt-4 border-t border-white/5 pt-10 font-bold uppercase"><i data-lucide="power" class="w-4 h-4"></i> Disconnect</button></nav>
                     </div>
-
-                    <!-- Right Column -->
                     <div class="lg:col-span-9 space-y-10">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                            <div class="holo-card p-10 rounded-[40px] h-[400px] flex flex-col">
-                                <h3 class="font-bold text-sm text-white mb-8 flex items-center gap-3 uppercase tracking-widest"><i data-lucide="git-merge" class="w-4 h-4 text-amber-hologram"></i> Neural Connectivity</h3>
-                                <div class="flex-grow flex items-center justify-center relative">
-                                    <div class="absolute inset-0 flex items-center justify-center opacity-20">
-                                        <div class="w-[80%] h-1 bg-amber-hologram blur-xl animate-pulse"></div>
-                                    </div>
-                                    <svg class="w-full h-full" viewBox="0 0 400 200">
-                                        <path d="M0 100 Q 50 20, 100 100 T 200 100 T 300 100 T 400 100" fill="none" stroke="#f59e0b" stroke-width="2" class="animate-pulse" />
-                                        <path d="M0 120 Q 50 180, 100 120 T 200 120 T 300 120 T 400 120" fill="none" stroke="#2dd4bf" stroke-width="1" opacity="0.5" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="holo-card p-10 rounded-[40px] h-[400px] flex flex-col overflow-hidden">
-                                <h3 class="font-bold text-sm text-white mb-8 flex items-center gap-3 uppercase tracking-widest"><i data-lucide="list" class="w-4 h-4 text-amber-hologram"></i> System Log Feed</h3>
-                                <div id="live-logs" class="flex-grow font-mono text-[10px] text-gray-500 space-y-4 overflow-y-auto no-scrollbar">
-                                </div>
-                            </div>
+                            <div class="holo-card p-10 rounded-[40px] h-[400px] flex flex-col"><h3 class="font-bold text-sm text-white mb-8 flex items-center gap-3 uppercase tracking-widest"><i data-lucide="git-merge" class="w-4 h-4 text-amber-hologram"></i> Neural Connectivity</h3><div class="flex-grow flex items-center justify-center relative"><div class="absolute inset-0 flex items-center justify-center opacity-20"><div class="w-[80%] h-1 bg-amber-hologram blur-xl animate-pulse"></div></div><svg class="w-full h-full" viewBox="0 0 400 200"><path d="M0 100 Q 50 20, 100 100 T 200 100 T 300 100 T 400 100" fill="none" stroke="#f59e0b" stroke-width="2" class="animate-pulse" /><path d="M0 120 Q 50 180, 100 120 T 200 120 T 300 120 T 400 120" fill="none" stroke="#2dd4bf" stroke-width="1" opacity="0.5" /></svg></div></div>
+                            <div class="holo-card p-10 rounded-[40px] h-[400px] flex flex-col overflow-hidden"><h3 class="font-bold text-sm text-white mb-8 flex items-center gap-3 uppercase tracking-widest"><i data-lucide="list" class="w-4 h-4 text-amber-hologram"></i> System Feed</h3><div id="live-logs" class="flex-grow font-mono text-[10px] text-gray-500 space-y-4 overflow-y-auto no-scrollbar"></div></div>
                         </div>
-
-                        <!-- Massive Deployment Table -->
-                        <div class="holo-glass rounded-[40px] overflow-hidden mb-10">
-                            <div class="p-8 border-b border-white/5 bg-white/5 flex justify-between items-center">
-                                <h3 class="font-bold text-xs uppercase tracking-[0.3em] text-white">Active Operational Entities</h3>
-                                <div class="flex gap-4">
-                                    <span class="px-3 py-1 rounded bg-teal-data/10 text-teal-data text-[8px] font-mono border border-teal-data/20">SYSTEM_STABLE</span>
-                                    <span class="px-3 py-1 rounded bg-amber-hologram/10 text-amber-hologram text-[8px] font-mono border border-amber-hologram/20">SYNC_ENABLED</span>
-                                </div>
-                            </div>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-left font-mono text-[10px] uppercase tracking-widest">
-                                    <thead class="text-gray-600 border-b border-white/5">
-                                        <tr><th class="p-8">Entity_ID</th><th class="p-8">Class</th><th class="p-8">Status</th><th class="p-8">Latency</th><th class="p-8">Control</th></tr>
-                                    </thead>
-                                    <tbody id="deployment-table" class="text-gray-400">
-                                        <tr class="border-b border-white/5 hover:bg-white/5 transition-all">
-                                            <td class="p-8 text-white font-bold">#AFX-CORE-01</td><td class="p-8">Architect Node</td><td class="p-8 text-teal-data font-bold">● Synchronized</td><td class="p-8 text-amber-hologram">0.01ms</td><td class="p-8"><button class="text-amber-hologram hover:text-white transition-colors border border-amber-hologram/30 px-4 py-2 rounded-lg">Override</button></td>
-                                        </tr>
-                                        <tr class="border-b border-white/5 hover:bg-white/5 transition-all">
-                                            <td class="p-8 text-white font-bold">#AFX-EXEC-09</td><td class="p-8">Autonomous Exec</td><td class="p-8 text-teal-data font-bold">● Processing</td><td class="p-8 text-amber-hologram">0.04ms</td><td class="p-8"><button class="text-amber-hologram hover:text-white transition-colors border border-amber-hologram/30 px-4 py-2 rounded-lg">Override</button></td>
-                                        </tr>
-                                        <tr class="hover:bg-white/5 transition-all">
-                                            <td class="p-8 text-white font-bold">#AFX-VIRAL-42</td><td class="p-8">Growth Engine</td><td class="p-8 text-amber-hologram font-bold">● Scaling...</td><td class="p-8 text-amber-hologram">0.12ms</td><td class="p-8"><button class="text-amber-hologram hover:text-white transition-colors border border-amber-hologram/30 px-4 py-2 rounded-lg">Override</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <div class="holo-glass rounded-[40px] overflow-hidden mb-10"><div class="p-8 border-b border-white/5 bg-white/5 flex justify-between items-center"><h3 class="font-bold text-xs uppercase tracking-[0.3em] text-white">Active Operational Entities</h3><div class="flex gap-4"><span class="px-3 py-1 rounded bg-teal-data/10 text-teal-data text-[8px] font-mono border border-teal-data/20">SYSTEM_STABLE</span></div></div><div class="overflow-x-auto"><table class="w-full text-left font-mono text-[10px] uppercase tracking-widest"><thead><tr class="text-gray-600 border-b border-white/5"><th class="p-8">Entity_ID</th><th class="p-8">Class</th><th class="p-8">Status</th><th class="p-8">Latency</th><th class="p-8">Control</th></tr></thead><tbody class="text-gray-400"><tr class="border-b border-white/5 hover:bg-white/5 transition-all"><td class="p-8 text-white font-bold">#AFX-CORE-01</td><td class="p-8">Architect</td><td class="p-8 text-teal-data font-bold">● Sync</td><td class="p-8">0.01ms</td><td class="p-8"><button class="text-amber-hologram hover:text-white transition-colors border border-amber-hologram/30 px-4 py-2 rounded-lg font-bold">Manage</button></td></tr></tbody></table></div></div>
                     </div>
                 </div>
             </section>
-
-            <!-- DASHBOARD FOOTER (Absolute End) -->
             <footer class="py-12 border-t border-white/5 text-center bg-obsidian-light relative z-20">
-                <p class="font-mono text-[9px] text-gray-600 uppercase tracking-[0.5em]">
-                    Node Operator Session: Secure // Directed & Created by Syed Ahmed Afroz Shah
-                </p>
+                <p class="font-mono text-[9px] text-gray-600 uppercase tracking-[0.5em]">Operational Session: Secure // Directed & Created by Syed Ahmed Afroz Shah</p>
             </footer>
         </div>
-
     </main>
 
     <!-- Global Architect Terminal -->
     <div id="architect-node" class="holo-glass rounded-[40px] flex flex-col overflow-hidden shadow-2xl">
-        <div class="architect-core" onclick="document.getElementById('architect-node').classList.toggle('visible')"></div>
+        <div class="architect-core"></div>
         <div class="bg-black/80 p-6 border-b border-white/10 flex justify-between items-center relative">
             <div class="scanline"></div>
             <div>
-                <h4 class="font-bold text-xs text-white uppercase tracking-[0.3em] flex items-center gap-3">
-                    <i data-lucide="cpu" class="w-4 h-4 text-amber-hologram"></i> Sentient Architect v2.6
-                </h4>
-                <p class="font-mono text-[8px] text-teal-data uppercase tracking-widest mt-1">Direct Neural Command Access</p>
+                <h4 class="font-bold text-xs text-white uppercase tracking-[0.3em] flex items-center gap-3"><i data-lucide="cpu" class="w-4 h-4 text-amber-hologram"></i> Sentient Architect</h4>
+                <p class="font-mono text-[8px] text-teal-data uppercase tracking-widest mt-1">Direct Neural command access</p>
             </div>
             <button onclick="document.getElementById('architect-node').classList.remove('visible')" class="text-gray-600 hover:text-white transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
         <div class="p-8 font-mono text-[11px] h-[300px] overflow-y-auto no-scrollbar flex flex-col gap-5 bg-obsidian/95" id="agent-log">
-            <p class="text-gray-600">> OS_LOAD: SUCCESSFUL</p>
-            <p class="text-amber-hologram">> WELCOME TO THE CORE INFRASTRUCTURE OF AFX.AI</p>
-            <p class="text-white">> I AM THE ARCHITECT. PROVIDE DIRECTIVES TO BEGIN OPERATIONAL OPTIMIZATION.</p>
+            <p class="text-gray-600">> SYSTEM_LINK: ACTIVE</p><p class="text-amber-hologram">> WELCOME TO AFX.AI INFRASTRUCTURE.</p>
         </div>
         <form id="agent-form" class="p-6 bg-black border-t border-white/10 flex items-center gap-5">
             <span class="text-amber-hologram font-bold text-lg">></span>
-            <input type="text" id="agent-input" class="bg-transparent border-none w-full text-white font-mono text-xs focus:outline-none uppercase tracking-[0.2em] placeholder:text-gray-800" placeholder="ENTER_DIRECTIVE..." autocomplete="off">
-            <button type="submit" class="text-amber-hologram hover:scale-110 transition-transform"><i data-lucide="send" class="w-5 h-5"></i></button>
+            <input type="text" id="agent-input" class="bg-transparent border-none w-full text-white font-mono text-xs focus:outline-none uppercase tracking-[0.2em] placeholder:text-gray-800" placeholder="DIRECTIVE..." autocomplete="off">
+            <button type="submit" class="text-amber-hologram"><i data-lucide="send" class="w-5 h-5"></i></button>
         </form>
     </div>
 
-    <!-- Scripting Engine -->
     <script>
         lucide.createIcons();
 
@@ -535,27 +340,15 @@
         });
 
         // ROUTER SYSTEM
-        const views = {
-            home: document.getElementById('home-view'),
-            dashboard: document.getElementById('dashboard-view')
-        };
-
+        const views = { home: document.getElementById('home-view'), dashboard: document.getElementById('dashboard-view') };
         window.router = {
             navigate: (viewName) => {
                 const isLoggedIn = localStorage.getItem('afx_session');
-                if (viewName === 'dashboard' && !isLoggedIn) {
-                    openAuth();
-                    appendLog("TELEMETRY DENIED: Identity Sync Required.", false, true);
-                    return;
-                }
-
-                // Hide all views first to prevent stacking height
+                if (viewName === 'dashboard' && !isLoggedIn) { openAuth(); return; }
                 Object.keys(views).forEach(v => views[v].classList.add('view-hidden'));
-                
                 setTimeout(() => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     views[viewName].classList.remove('view-hidden');
-                    appendLog(`INITIALIZING_${viewName.toUpperCase()}_VIEW`, true);
                 }, 50);
             }
         };
@@ -581,13 +374,12 @@
             const email = document.getElementById('auth-email').value;
             const pass = document.getElementById('auth-password').value;
             const users = JSON.parse(localStorage.getItem('afx_users_db') || '[]');
-
             if (isLogin) {
                 const user = users.find(u => u.email === email && u.pass === pass);
                 if (user) loginSuccess(user);
-                else alert("Authentication failure.");
+                else alert("Auth failure.");
             } else {
-                if (users.find(u => u.email === email)) return alert("Identity recorded.");
+                if (users.find(u => u.email === email)) return alert("Exists.");
                 const newUser = { email, pass, name: email.split('@')[0] };
                 users.push(newUser);
                 localStorage.setItem('afx_users_db', JSON.stringify(users));
@@ -601,14 +393,10 @@
             syncInit.classList.add('hidden');
             userHud.classList.remove('hidden');
             closeAuth();
-            appendLog(`SYNC_SUCCESS: Welcome Operator ${user.name.toUpperCase()}`, true);
             router.navigate('dashboard');
         };
 
-        const logout = () => {
-            localStorage.removeItem('afx_session');
-            location.reload();
-        };
+        const logout = () => { localStorage.removeItem('afx_session'); location.reload(); };
 
         // Load Session
         const currentSession = JSON.parse(localStorage.getItem('afx_session'));
@@ -623,9 +411,9 @@
         const agentInput = document.getElementById('agent-input');
         const agentLog = document.getElementById('agent-log');
 
-        const appendLog = (msg, isAction = false, isError = false) => {
+        const appendLog = (msg, isAction = false) => {
             const p = document.createElement('p');
-            p.className = isError ? 'text-red-500' : (isAction ? 'text-teal-data' : 'text-amber-hologram');
+            p.className = isAction ? 'text-teal-data' : 'text-amber-hologram';
             p.textContent = `> ${msg}`;
             agentLog.appendChild(p);
             agentLog.scrollTop = agentLog.scrollHeight;
@@ -637,46 +425,27 @@
             if (!val) return;
             agentInput.value = '';
             appendLog(val.toUpperCase());
-
             await new Promise(r => setTimeout(r, 600));
-
-            if (val.includes('dash') || val.includes('telemetry')) router.navigate('dashboard');
+            if (val.includes('dash')) router.navigate('dashboard');
             else if (val.includes('home')) router.navigate('home');
             else if (val.includes('vision') || val.includes('manifesto')) {
                 document.getElementById('vision').scrollIntoView({ behavior: 'smooth' });
-                appendLog('ROUTING_TO_MANIFESTO_NODE', true);
-            } else if (val.includes('dark') || val.includes('light')) {
-                document.body.style.backgroundColor = val.includes('light') ? '#1a1a24' : '#030305';
-                appendLog('ENVIRONMENT_MUTATED', true);
-            } else if (val.includes('clear')) {
-                agentLog.innerHTML = '';
-                appendLog('TERMINAL_RESET');
-            } else {
-                appendLog('DIRECTIVE_PROCESSED. STANDBY.');
-            }
+                appendLog('ROUTING_TO_VISION', true);
+            } else appendLog('DIRECTIVE_PROCESSED.');
         });
 
-        // DASHBOARD ENGINE (LIVE LOGS)
+        // LIVE LOGS
         const liveLogsContainer = document.getElementById('live-logs');
         if (liveLogsContainer) {
-            const logOptions = [
-                "RECURSIVE_LOOP_#01: NOMINAL",
-                "SYNCING_KARACHI_TECH_HUB...",
-                "LATENCY_ADJUSTED: -0.04ms",
-                "ENCRYPTING_NEURAL_PIPELINE",
-                "AGENT_WORKFORCE_ACTIVE",
-                "UPDATING_DATA_SYNAPSE",
-                "DETECTING_OPERATOR_INTENT"
-            ];
+            const logOptions = ["LOOP_#01: OK", "SYNCING_KARACHI...", "DATA_ENCRYPTED", "WORKFORCE_ACTIVE"];
             setInterval(() => {
                 const log = logOptions[Math.floor(Math.random() * logOptions.length)];
                 const p = document.createElement('p');
-                p.className = "flex justify-between border-b border-white/5 pb-2 opacity-0 animate-pulse";
-                p.style.animation = "draw 0.5s forwards";
+                p.className = "flex justify-between border-b border-white/5 pb-2 animate-pulse";
                 p.innerHTML = `<span>[SYSTEM] ${log}</span> <span class="text-teal-data">OK</span>`;
                 liveLogsContainer.prepend(p);
                 if (liveLogsContainer.children.length > 12) liveLogsContainer.lastChild.remove();
-            }, 2500);
+            }, 3000);
         }
     </script>
 </body>
