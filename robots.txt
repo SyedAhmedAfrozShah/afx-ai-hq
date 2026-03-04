@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://SyedAhmedAfrozShah.github.io/afx-ai-hq/sitemap.xml
