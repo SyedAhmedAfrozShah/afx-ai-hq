@@ -467,6 +467,16 @@
         const agentInput = document.getElementById('agent-input');
         const agentLog = document.getElementById('agent-log');
 
+        const NEURAL_KNOWLEDGE = {
+            web: "Web Nodes: Standard ($19), Agent-Managed ($49), and AFX Premium ($99). Premium allows UI mutation via prompts.",
+            apps: "Mobile Nodes: Native Core ($29), Sync Node ($69), and Agentic Mobile ($149). Agentic rewrites features live.",
+            agents: "AI Workforce: Task Node ($12), Signature Agent ($39), and Autonomous Executive ($89).",
+            automation: "Auto Sectors: Viral Engine ($19), Data Synapse ($55), and Orchestration ($115).",
+            neural: "Neural Pipelines: Visuals ($7), Cinematics ($25), and Recursive Loops ($15).",
+            vision: "AFX.AI bridges human intent with sentient architecture, directed by Syed Ahmed Afroz Shah.",
+            founder: "Architected by Syed Ahmed Afroz Shah, کراچی (Karachi) Node."
+        };
+
         const appendLog = (msg, isAction = false) => {
             const p = document.createElement('p');
             p.className = isAction ? 'text-teal-data' : 'text-amber-hologram';
@@ -481,13 +491,25 @@
             if (!val) return;
             agentInput.value = '';
             appendLog(val.toUpperCase());
+            
             await new Promise(r => setTimeout(r, 600));
-            if (val.includes('dash')) router.navigate('dashboard');
-            else if (val.includes('home')) router.navigate('home');
+
+            // COMMAND ROUTING
+            if (val.includes('dash')) { router.navigate('dashboard'); appendLog('ROUTING_TO_DASHBOARD', true); }
+            else if (val.includes('home')) { router.navigate('home'); appendLog('ROUTING_TO_HOME', true); }
             else if (val.includes('vision') || val.includes('manifesto')) {
                 document.getElementById('vision').scrollIntoView({ behavior: 'smooth' });
                 appendLog('ROUTING_TO_VISION', true);
-            } else appendLog('DIRECTIVE_PROCESSED.');
+            }
+            // KNOWLEDGE ENGINE
+            else if (val.includes('web') || val.includes('site') || val.includes('price')) appendLog(NEURAL_KNOWLEDGE.web);
+            else if (val.includes('app') || val.includes('mobile')) appendLog(NEURAL_KNOWLEDGE.apps);
+            else if (val.includes('agent') || val.includes('workforce') || val.includes('bot')) appendLog(NEURAL_KNOWLEDGE.agents);
+            else if (val.includes('auto')) appendLog(NEURAL_KNOWLEDGE.automation);
+            else if (val.includes('neural') || val.includes('image') || val.includes('video')) appendLog(NEURAL_KNOWLEDGE.neural);
+            else if (val.includes('who') || val.includes('syed') || val.includes('founder')) appendLog(NEURAL_KNOWLEDGE.founder);
+            else if (val.includes('hello') || val.includes('hi')) appendLog('CONNECTION_ESTABLISHED. STATE YOUR DIRECTIVE.');
+            else appendLog('QUERY_NOT_RECOGNIZED. TRY: "WEB", "AGENTS", "PRICES", or "DASH".');
         });
 
         // LIVE LOGS
