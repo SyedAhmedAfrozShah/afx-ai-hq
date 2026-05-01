@@ -519,6 +519,25 @@
             return "NEURAL_CORE_OFFLINE: ALL MODELS REJECTED CONNECTION. VERIFY API KEY STATUS.";
         };
 
+        const handleDirective = async () => {
+            const val = agentInput.value.trim();
+            if (!val) return;
+            agentInput.value = '';
+            appendLog(val.toUpperCase());
+
+            const lowerVal = val.toLowerCase();
+            if (lowerVal.includes('dash')) { router.navigate('dashboard'); appendLog('ROUTING_TO_DASHBOARD', true); return; }
+            if (lowerVal.includes('home')) { router.navigate('home'); appendLog('ROUTING_TO_HOME', true); return; }
+
+            appendLog('THINKING...', true);
+            const brainResponse = await callNeuralBrain(val);
+            
+            if (agentLog.lastChild && agentLog.lastChild.textContent.includes('THINKING...')) {
+                agentLog.lastChild.remove();
+            }
+            appendLog(brainResponse);
+        };
+
         if (agentSendBtn) agentSendBtn.addEventListener('click', handleDirective);
         if (agentInput) agentInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleDirective(); });
 
