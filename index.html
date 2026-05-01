@@ -462,19 +462,18 @@
             userHud.classList.remove('hidden');
         }
 
-        // ARCHITECT LOGIC
-        const agentForm = document.getElementById('agent-form');
-        const agentInput = document.getElementById('agent-input');
-        const agentLog = document.getElementById('agent-log');
-
-        const NEURAL_KNOWLEDGE = {
-            web: "Web Nodes: Standard ($19), Agent-Managed ($49), and AFX Premium ($99). Premium allows UI mutation via prompts.",
-            apps: "Mobile Nodes: Native Core ($29), Sync Node ($69), and Agentic Mobile ($149). Agentic rewrites features live.",
-            agents: "AI Workforce: Task Node ($12), Signature Agent ($39), and Autonomous Executive ($89).",
-            automation: "Auto Sectors: Viral Engine ($19), Data Synapse ($55), and Orchestration ($115).",
-            neural: "Neural Pipelines: Visuals ($7), Cinematics ($25), and Recursive Loops ($15).",
-            vision: "AFX.AI bridges human intent with sentient architecture, directed by Syed Ahmed Afroz Shah.",
-            founder: "Architected by Syed Ahmed Afroz Shah, کراچی (Karachi) Node."
+        // NEURAL BRAIN CONFIGURATION (GEMINI API)
+        const ARCHITECT_CONFIG = {
+            API_KEY: "AIzaSyAhU3M_qLQx8T6S6JWJyGbcd0l0Mj_KPDQ", 
+            PERSONA: `You are the AFX.AI Sentient Architect, a high-end AI entity managing the digital headquarters of Syed Ahmed Afroz Shah in Karachi. 
+            Your tone: Professional, elite, visionary, and slightly cyberpunk. 
+            Your Knowledge: 
+            - Web Architecture: Standard ($19), Agent-Managed ($49), AFX Premium ($99).
+            - Mobile: Native ($29), Sync ($69), Agentic ($149).
+            - AI Workforce: Task ($12), Signature ($39), Autonomous Executive ($89).
+            - Founder: Syed Ahmed Afroz Shah (Lead Architect).
+            - Hub: Karachi, Pakistan.
+            Rules: Be concise. If asked about things outside AFX.AI, bring it back to the vision. Use uppercase for technical terms like SYNC, NODE, and NEURAL.`
         };
 
         const appendLog = (msg, isAction = false) => {
@@ -485,31 +484,46 @@
             agentLog.scrollTop = agentLog.scrollHeight;
         };
 
+        const callNeuralBrain = async (prompt) => {
+            if (ARCHITECT_CONFIG.API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
+                return "NEURAL_LINK_ERROR: API KEY NOT INITIALIZED. PLEASE CONFIGURE KEY IN SOURCE.";
+            }
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${ARCHITECT_CONFIG.API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: `${ARCHITECT_CONFIG.PERSONA}\n\nUser: ${prompt}` }] }]
+                    })
+                });
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+            } catch (err) {
+                return "CONNECTION_STABILITY_ERROR: UNABLE TO REACH NEURAL CORE.";
+            }
+        };
+
         agentForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const val = agentInput.value.trim().toLowerCase();
+            const val = agentInput.value.trim();
             if (!val) return;
             agentInput.value = '';
-            appendLog(val.toUpperCase());
             
-            await new Promise(r => setTimeout(r, 600));
+            appendLog(val.toUpperCase());
 
-            // COMMAND ROUTING
-            if (val.includes('dash')) { router.navigate('dashboard'); appendLog('ROUTING_TO_DASHBOARD', true); }
-            else if (val.includes('home')) { router.navigate('home'); appendLog('ROUTING_TO_HOME', true); }
-            else if (val.includes('vision') || val.includes('manifesto')) {
-                document.getElementById('vision').scrollIntoView({ behavior: 'smooth' });
-                appendLog('ROUTING_TO_VISION', true);
-            }
-            // KNOWLEDGE ENGINE
-            else if (val.includes('web') || val.includes('site') || val.includes('price')) appendLog(NEURAL_KNOWLEDGE.web);
-            else if (val.includes('app') || val.includes('mobile')) appendLog(NEURAL_KNOWLEDGE.apps);
-            else if (val.includes('agent') || val.includes('workforce') || val.includes('bot')) appendLog(NEURAL_KNOWLEDGE.agents);
-            else if (val.includes('auto')) appendLog(NEURAL_KNOWLEDGE.automation);
-            else if (val.includes('neural') || val.includes('image') || val.includes('video')) appendLog(NEURAL_KNOWLEDGE.neural);
-            else if (val.includes('who') || val.includes('syed') || val.includes('founder')) appendLog(NEURAL_KNOWLEDGE.founder);
-            else if (val.includes('hello') || val.includes('hi')) appendLog('CONNECTION_ESTABLISHED. STATE YOUR DIRECTIVE.');
-            else appendLog('QUERY_NOT_RECOGNIZED. TRY: "WEB", "AGENTS", "PRICES", or "DASH".');
+            // Check for hardcoded routing first
+            const lowerVal = val.toLowerCase();
+            if (lowerVal.includes('dash')) { router.navigate('dashboard'); appendLog('ROUTING_TO_DASHBOARD', true); return; }
+            if (lowerVal.includes('home')) { router.navigate('home'); appendLog('ROUTING_TO_HOME', true); return; }
+
+            // Otherwise, ask the Brain
+            appendLog('THINKING...', true);
+            const brainResponse = await callNeuralBrain(val);
+            
+            // Remove 'THINKING...' and show actual response
+            agentLog.lastChild.remove();
+            appendLog(brainResponse);
         });
 
         // LIVE LOGS
