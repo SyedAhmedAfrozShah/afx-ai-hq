@@ -504,13 +504,17 @@
                     
                     const data = await response.json();
                     
-                    // If this model worked, return the text
                     if (data.candidates && data.candidates[0].content) {
                         return data.candidates[0].content.parts[0].text;
                     }
                     
-                    // If this specific model failed, log it and try the next one in the loop
-                    console.warn(`Model ${model} failed, trying fallback...`, data.error || "Unknown error");
+                    if (data.error) {
+                        console.error(`Model ${model} error:`, data.error);
+                        // If it's a key issue, we stop and report it
+                        if (data.error.status === "UNAUTHENTICATED" || data.error.message.includes("key")) {
+                            return `NEURAL_LINK_DENIED: ${data.error.message}`;
+                        }
+                    }
                 } catch (err) {
                     console.error(`Link to ${model} broken:`, err);
                 }
