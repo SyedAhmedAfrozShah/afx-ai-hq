@@ -486,33 +486,37 @@
             agentLog.scrollTop = agentLog.scrollHeight;
         };
 
-        const handleDirective = async () => {
-            const val = agentInput.value.trim();
-            if (!val) return;
-            agentInput.value = '';
-            appendLog(val.toUpperCase());
-
-            const lowerVal = val.toLowerCase();
-            if (lowerVal.includes('dash')) { router.navigate('dashboard'); appendLog('ROUTING_TO_DASHBOARD', true); return; }
-            if (lowerVal.includes('home')) { router.navigate('home'); appendLog('ROUTING_TO_HOME', true); return; }
-
-            appendLog('THINKING...', true);
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${ARCHITECT_CONFIG.API_KEY}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: `SYSTEM_INSTRUCTION: ${ARCHITECT_CONFIG.PERSONA}\n\nUser: ${val}` }] }] })
-                });
-                const data = await response.json();
-                if (agentLog.lastChild && agentLog.lastChild.textContent.includes('THINKING...')) agentLog.lastChild.remove();
-                
-                if (data.error) appendLog(`NEURAL_ERROR: ${data.error.message}`);
-                else if (data.candidates && data.candidates[0].content) appendLog(data.candidates[0].content.parts[0].text);
-                else appendLog("NEURAL_CORE_SILENT: NO RESPONSE.");
-            } catch (err) {
-                if (agentLog.lastChild && agentLog.lastChild.textContent.includes('THINKING...')) agentLog.lastChild.remove();
-                appendLog("CONNECTION_STABILITY_ERROR.");
+        const callNeuralBrain = async (prompt) => {
+            // Models to try in order of preference
+            const models = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-pro"];
+            
+            for (const model of models) {
+                try {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${ARCHITECT_CONFIG.API_KEY}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: prompt }] }],
+                            systemInstruction: { parts: [{ text: ARCHITECT_CONFIG.PERSONA }] },
+                            generationConfig: { temperature: 0.7, maxOutputTokens: 800 }
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    // If this model worked, return the text
+                    if (data.candidates && data.candidates[0].content) {
+                        return data.candidates[0].content.parts[0].text;
+                    }
+                    
+                    // If this specific model failed, log it and try the next one in the loop
+                    console.warn(`Model ${model} failed, trying fallback...`, data.error || "Unknown error");
+                } catch (err) {
+                    console.error(`Link to ${model} broken:`, err);
+                }
             }
+            
+            return "NEURAL_CORE_OFFLINE: ALL MODELS REJECTED CONNECTION. VERIFY API KEY STATUS.";
         };
 
         if (agentSendBtn) agentSendBtn.addEventListener('click', handleDirective);
