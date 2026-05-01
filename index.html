@@ -486,7 +486,7 @@
 
         const callNeuralBrain = async (prompt) => {
             if (ARCHITECT_CONFIG.API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
-                return "NEURAL_LINK_ERROR: API KEY NOT INITIALIZED. PLEASE CONFIGURE KEY IN SOURCE.";
+                return "NEURAL_LINK_ERROR: API KEY NOT INITIALIZED.";
             }
 
             try {
@@ -498,33 +498,53 @@
                     })
                 });
                 const data = await response.json();
-                return data.candidates[0].content.parts[0].text;
+                
+                if (data.error) {
+                    return `NEURAL_ERROR: ${data.error.message}`;
+                }
+                
+                if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+                    return data.candidates[0].content.parts[0].text;
+                }
+                
+                return "NEURAL_CORE_SILENT: NO DATA RETURNED.";
             } catch (err) {
+                console.error(err);
                 return "CONNECTION_STABILITY_ERROR: UNABLE TO REACH NEURAL CORE.";
             }
         };
 
-        agentForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const val = agentInput.value.trim();
-            if (!val) return;
-            agentInput.value = '';
-            
-            appendLog(val.toUpperCase());
+        const initArchitect = () => {
+            const agentForm = document.getElementById('agent-form');
+            const agentInput = document.getElementById('agent-input');
+            if (!agentForm || !agentInput) return;
 
-            // Check for hardcoded routing first
-            const lowerVal = val.toLowerCase();
-            if (lowerVal.includes('dash')) { router.navigate('dashboard'); appendLog('ROUTING_TO_DASHBOARD', true); return; }
-            if (lowerVal.includes('home')) { router.navigate('home'); appendLog('ROUTING_TO_HOME', true); return; }
+            agentForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const val = agentInput.value.trim();
+                if (!val) return;
+                agentInput.value = '';
+                
+                appendLog(val.toUpperCase());
 
-            // Otherwise, ask the Brain
-            appendLog('THINKING...', true);
-            const brainResponse = await callNeuralBrain(val);
-            
-            // Remove 'THINKING...' and show actual response
-            agentLog.lastChild.remove();
-            appendLog(brainResponse);
-        });
+                const lowerVal = val.toLowerCase();
+                if (lowerVal.includes('dash')) { router.navigate('dashboard'); appendLog('ROUTING_TO_DASHBOARD', true); return; }
+                if (lowerVal.includes('home')) { router.navigate('home'); appendLog('ROUTING_TO_HOME', true); return; }
+
+                appendLog('THINKING...', true);
+                const brainResponse = await callNeuralBrain(val);
+                
+                if (agentLog.lastChild && agentLog.lastChild.textContent.includes('THINKING...')) {
+                    agentLog.lastChild.remove();
+                }
+                appendLog(brainResponse);
+            });
+        };
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', initArchitect);
 
         // LIVE LOGS
         const liveLogsContainer = document.getElementById('live-logs');
