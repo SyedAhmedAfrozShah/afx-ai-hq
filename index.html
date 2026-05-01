@@ -153,9 +153,12 @@
                 <input type="password" id="auth-password" placeholder="ACCESS_KEY" required class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 focus:outline-none focus:border-amber-hologram text-sm font-mono tracking-widest transition-all">
                 <button type="submit" class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-xs uppercase tracking-[0.3em] font-mono hover:bg-white transition-colors shadow-2xl">Establish Sync</button>
             </form>
-            <div class="mt-10 flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
-                <button onclick="toggleAuth()" id="auth-toggle-btn" class="text-amber-hologram hover:underline">Create Record</button>
-                <button onclick="closeAuth()" class="text-gray-600">Abort</button>
+            <div class="mt-10 flex flex-col gap-4">
+                <div class="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
+                    <button onclick="toggleAuth()" id="auth-toggle-btn" class="text-amber-hologram hover:underline">Create Record</button>
+                    <button onclick="closeAuth()" class="text-gray-600">Abort</button>
+                </div>
+                <button onclick="forgotPassword()" class="text-[8px] font-mono uppercase tracking-[0.3em] text-gray-700 hover:text-amber-hologram text-left transition-colors">Forgot Access Key?</button>
             </div>
         </div>
     </div>
@@ -441,6 +444,15 @@
         };
 
         const logout = () => { localStorage.removeItem('afx_session'); location.reload(); };
+
+        const forgotPassword = () => {
+            const email = document.getElementById('auth-email').value;
+            if (!email) return alert("Enter email first.");
+            const users = JSON.parse(localStorage.getItem('afx_users_db') || '[]');
+            const user = users.find(u => u.email === email);
+            if (user) alert(`RECOVERY_SYNC: Your Access Key is "${user.pass}"`);
+            else alert("Node not found.");
+        };
 
         // Load Session
         const currentSession = JSON.parse(localStorage.getItem('afx_session'));
