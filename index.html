@@ -488,17 +488,25 @@
 
         const callNeuralBrain = async (prompt) => {
             const GROQ_API_KEY = "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"; 
+            const GEMINI_API_KEY = ARCHITECT_CONFIG.API_KEY;
             
-            // USE PUBLIC CORS PROXY TO BYPASS BROWSER BLOCKS
-            const PROXY = "https://corsproxy.io/?";
+            // Try different proxies if one fails
+            const PROXY = "https://api.codetabs.com/v1/proxy?quest=";
+            let groqStatus = "WAITING";
+            let geminiStatus = "WAITING";
 
+            // 1. ATTEMPT GROQ (LLAMA 3.1)
             if (GROQ_API_KEY) {
                 try {
-                    const response = await fetch(`${PROXY}https://api.groq.com/openai/v1/chat/completions`, {
+                    const groqUrl = "https://api.groq.com/openai/v1/chat/completions";
+                    const response = await fetch(`${PROXY}${encodeURIComponent(groqUrl)}`, {
                         method: "POST",
-                        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${GROQ_API_KEY}` },
+                        headers: { 
+                            "Content-Type": "application/json", 
+                            "Authorization": `Bearer ${GROQ_API_KEY}` 
+                        },
                         body: JSON.stringify({
-                            model: "llama3-8b-8192",
+                            model: "llama-3.1-8b-instant",
                             messages: [
                                 { role: "system", content: ARCHITECT_CONFIG.PERSONA },
                                 { role: "user", content: prompt }
@@ -509,19 +517,18 @@
                     if (data.choices && data.choices[0].message) {
                         return data.choices[0].message.content;
                     }
-                    if (data.error) throw new Error(`GROQ_ERROR: ${data.error.message}`);
+                    groqStatus = data.error ? data.error.message : "EMPTY_RESPONSE";
                 } catch (e) { 
-                    console.error("Groq Core Failure:", e);
+                    groqStatus = `NETWORK_ERR: ${e.message}`;
                 }
             }
 
-            // UNIVERSAL GEMINI FALLBACK
-            const models = ["gemini-1.5-flash"]; 
-            let lastError = "UNKNOWN";
-
+            // 2. ATTEMPT GEMINI FALLBACK (V1BETA)
+            const models = ["gemini-1.5-flash", "gemini-1.5-flash-latest"];
             for (const model of models) {
                 try {
-                    const response = await fetch(`${PROXY}https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${ARCHITECT_CONFIG.API_KEY}`, {
+                    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
+                    const response = await fetch(`${PROXY}${encodeURIComponent(geminiUrl)}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -534,11 +541,13 @@
                     if (data.candidates && data.candidates[0].content) {
                         return data.candidates[0].content.parts[0].text;
                     }
-                    if (data.error) lastError = `GEMINI_${data.error.status}: ${data.error.message}`;
-                } catch (err) { lastError = `PROXY_LINK_ERROR: ${err.message}`; }
+                    geminiStatus = data.error ? `${data.error.status}: ${data.error.message}` : "FAIL";
+                } catch (err) { 
+                    geminiStatus = `LINK_ERR: ${err.message}`;
+                }
             }
             
-            return `NEURAL_CORE_OFFLINE: ${lastError}`;
+            return `NEURAL_CORE_OFFLINE: [GROQ: ${groqStatus}] | [GEMINI: ${geminiStatus}]`;
         };
 
         const handleDirective = async () => {
