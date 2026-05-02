@@ -359,7 +359,7 @@
         <div class="bg-black/80 p-6 border-b border-white/10 flex justify-between items-center relative">
             <div class="scanline"></div>
             <div>
-                <h4 class="font-bold text-xs text-white uppercase tracking-[0.3em] flex items-center gap-3"><i data-lucide="cpu" class="w-4 h-4 text-amber-hologram"></i> Sentient Architect</h4>
+                <h4 class="font-bold text-xs text-white uppercase tracking-[0.3em] flex items-center gap-3"><i data-lucide="cpu" class="w-4 h-4 text-amber-hologram"></i> Sentient Architect <span class="text-[8px] text-gray-700">v1.1.0-GROQ</span></h4>
                 <p class="font-mono text-[8px] text-teal-data uppercase tracking-widest mt-1">Direct Neural command access</p>
             </div>
             <button onclick="document.getElementById('architect-node').classList.remove('visible')" class="text-gray-600 hover:text-white transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
@@ -467,7 +467,7 @@
             if (userHud) userHud.classList.remove('hidden');
         }
 
-        // ARCHITECT CORE V1.0.2 - STABLE
+        // ARCHITECT CORE V1.1.0 - GROQ ENABLED
         const ARCHITECT_CONFIG = {
             API_KEY: "AIzaSyAhU3M_qLQx8T6S6JWJyGbcd0l0Mj_KPDQ", 
             PERSONA: `You are the AFX.AI Sentient Architect. Tone: Cyberpunk, elite. Known plans: Web ($19-$99), Apps ($29-$149), Agents ($12-$89). Karachi based.`
@@ -487,7 +487,6 @@
         };
 
         const callNeuralBrain = async (prompt) => {
-            // BACKUP PLAN: If you get a Groq key, put it here.
             const GROQ_API_KEY = "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"; 
             
             if (GROQ_API_KEY) {
@@ -507,12 +506,15 @@
                     if (data.choices && data.choices[0].message) {
                         return data.choices[0].message.content;
                     }
-                    if (data.error) console.error("Groq Error:", data.error);
-                } catch (e) { console.error("Groq Failed:", e); }
+                    if (data.error) throw new Error(`${data.error.code}: ${data.error.message}`);
+                } catch (e) { 
+                    console.error("Groq Core Failure:", e);
+                    // If Groq fails, we continue to Gemini fallback
+                }
             }
 
-            // UNIVERSAL GEMINI FIX (Fallback)
-            const models = ["gemini-1.5-flash", "gemini-pro"];
+            // UNIVERSAL GEMINI FALLBACK (Primitive Mode)
+            const models = ["gemini-1.5-flash"]; 
             let lastError = "UNKNOWN";
 
             for (const model of models) {
@@ -521,9 +523,7 @@
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            contents: [{ 
-                                parts: [{ text: `${ARCHITECT_CONFIG.PERSONA}\n\nUSER_DIRECTIVE: ${prompt}` }] 
-                            }],
+                            contents: [{ parts: [{ text: `${ARCHITECT_CONFIG.PERSONA}\n\nUSER_DIRECTIVE: ${prompt}` }] }],
                             generationConfig: { temperature: 0.7, maxOutputTokens: 800 }
                         })
                     });
@@ -533,10 +533,10 @@
                         return data.candidates[0].content.parts[0].text;
                     }
                     if (data.error) lastError = `${data.error.status}: ${data.error.message}`;
-                } catch (err) { lastError = `FETCH_ERR: ${err.message}`; }
+                } catch (err) { lastError = `LINK_ERROR: ${err.message}`; }
             }
             
-            return `NEURAL_CORE_OFFLINE: ${lastError}. (TIP: Switch to Groq in the code for 100% reliability)`;
+            return `NEURAL_CORE_OFFLINE: ${lastError}. VERIFY_API_KEYS.`;
         };
 
         const handleDirective = async () => {
