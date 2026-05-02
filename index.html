@@ -487,9 +487,9 @@
         };
 
         const callNeuralBrain = async (prompt) => {
-            const GROQ_API_KEY = "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";
+            // Priority: Key from localStorage (not on GitHub)
+            let activeKey = localStorage.getItem('afx_neural_key') || "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";
             
-            // USE THINGPROXY - IT PRESERVES AUTH HEADERS FOR GROQ
             const PROXY = "https://thingproxy.freeboard.io/fetch/";
             const URL = "https://api.groq.com/openai/v1/chat/completions";
 
@@ -498,7 +498,7 @@
                     method: "POST",
                     headers: { 
                         "Content-Type": "application/json", 
-                        "Authorization": `Bearer ${GROQ_API_KEY}` 
+                        "Authorization": `Bearer ${activeKey}` 
                     },
                     body: JSON.stringify({
                         model: "llama-3.1-8b-instant",
@@ -516,7 +516,7 @@
                 if (data.error) throw new Error(data.error.message);
             } catch (err) {
                 console.error("Neural Link Failed:", err);
-                return `NEURAL_CORE_OFFLINE: ${err.message}. SYNC_FAILED.`;
+                return `NEURAL_CORE_OFFLINE: ${err.message}. Type 'SET_KEY [YOUR_KEY]' to fix.`;
             }
         };
 
@@ -524,6 +524,15 @@
             const val = agentInput.value.trim();
             if (!val) return;
             agentInput.value = '';
+
+            // SPECIAL COMMAND: SET_KEY
+            if (val.startsWith('SET_KEY ')) {
+                const newKey = val.replace('SET_KEY ', '').trim();
+                localStorage.setItem('afx_neural_key', newKey);
+                appendLog("KEY_ACCEPTED: Neural link updated.");
+                return;
+            }
+
             appendLog(val.toUpperCase());
 
             const lowerVal = val.toLowerCase();
