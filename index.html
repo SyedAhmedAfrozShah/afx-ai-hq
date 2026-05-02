@@ -250,7 +250,7 @@
 
         const callNeuralBrain = async (prompt) => {
             let activeKey = localStorage.getItem('afx_neural_key') || ARCHITECT_CONFIG.API_KEY;
-            const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${activeKey}`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${activeKey}`;
 
             try {
                 const response = await fetch(url, {
