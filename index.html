@@ -488,7 +488,7 @@
 
         const callNeuralBrain = async (prompt) => {
             // BACKUP PLAN: If you get a Groq key, put it here.
-            const GROQ_API_KEY = ""; // Get one free at console.groq.com
+            const GROQ_API_KEY = "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"; 
             
             if (GROQ_API_KEY) {
                 try {
@@ -504,11 +504,14 @@
                         })
                     });
                     const data = await response.json();
-                    return data.choices[0].message.content;
+                    if (data.choices && data.choices[0].message) {
+                        return data.choices[0].message.content;
+                    }
+                    if (data.error) console.error("Groq Error:", data.error);
                 } catch (e) { console.error("Groq Failed:", e); }
             }
 
-            // UNIVERSAL GEMINI FIX (Stable v1 + Persona-in-Prompt)
+            // UNIVERSAL GEMINI FIX (Fallback)
             const models = ["gemini-1.5-flash", "gemini-pro"];
             let lastError = "UNKNOWN";
 
