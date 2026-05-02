@@ -487,8 +487,8 @@
         };
 
         const callNeuralBrain = async (prompt) => {
-            // Models to try in order of preference
             const models = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-pro"];
+            let lastError = "UNKNOWN_ERROR";
             
             for (const model of models) {
                 try {
@@ -509,18 +509,16 @@
                     }
                     
                     if (data.error) {
+                        lastError = `${data.error.status}: ${data.error.message}`;
                         console.error(`Model ${model} error:`, data.error);
-                        // If it's a key issue, we stop and report it
-                        if (data.error.status === "UNAUTHENTICATED" || data.error.message.includes("key")) {
-                            return `NEURAL_LINK_DENIED: ${data.error.message}`;
-                        }
                     }
                 } catch (err) {
+                    lastError = `FETCH_FAILED: ${err.message}`;
                     console.error(`Link to ${model} broken:`, err);
                 }
             }
             
-            return "NEURAL_CORE_OFFLINE: ALL MODELS REJECTED CONNECTION. VERIFY API KEY STATUS.";
+            return `NEURAL_CORE_OFFLINE: ${lastError}`;
         };
 
         const handleDirective = async () => {
