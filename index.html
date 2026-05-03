@@ -303,7 +303,7 @@
 
         // NEURAL PROXY ARCHITECTURE (v2.0.0-PRO)
         const PROXY_URL = "https://long-shadow-46ecneural-core-proxy.syedahmedafrozshah25.workers.dev";
-        const PERSONA = "You are the AFX.AI Sentient Architect. Cyberpunk, Karachi-based AI node.";
+        const PERSONA = "You are a sentient Architect terminal bot. ";
 
         const agentLog = document.getElementById('agent-log');
         const agentInput = document.getElementById('agent-input');
@@ -323,23 +323,28 @@
                 const response = await fetch(PROXY_URL, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        model: "llama-3.1-8b-instant",
-                        messages: [
-                            { role: "system", content: PERSONA },
-                            { role: "user", content: prompt }
-                        ]
+                    body: JSON.stringify({ 
+                        contents: [{ 
+                            parts: [{ text: PERSONA + prompt }] 
+                        }] 
                     })
                 });
                 
                 const data = await response.json();
-                if (data.choices && data.choices[0].message) {
-                    return data.choices[0].message.content;
+                
+                if (data.error) {
+                    return `SYSTEM ERROR: ${data.error.message || JSON.stringify(data.error)}`;
                 }
-                throw new Error("NEURAL_SYNC_TIMEOUT");
+
+                if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) {
+                    return data.candidates[0].content.parts[0].text;
+                }
+                
+                return "SYSTEM ERROR: MALFORMED_RESPONSE";
+                
             } catch (err) {
                 console.error("Neural Failure:", err);
-                return `NEURAL_CORE_OFFLINE: ${err.message}. Check Cloudflare Worker Status.`;
+                return `SYSTEM ERROR: ${err.message}. Check Cloudflare Worker Status.`;
             }
         };
 
