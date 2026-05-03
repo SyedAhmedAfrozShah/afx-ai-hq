@@ -104,10 +104,22 @@
         .stat-progress { height: 100%; background: #f59e0b; box-shadow: 0 0 10px #f59e0b; transition: width 1s ease; }
 
         /* ARCHITECT NODE */
-        #architect-node { position: fixed; bottom: 40px; right: 40px; width: 420px; z-index: 1000; transform: translateY(20px); opacity: 0; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none; }
+        #architect-node { position: fixed; bottom: 40px; right: 40px; width: 420px; max-width: 90vw; z-index: 1000; transform: translateY(20px); opacity: 0; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none; }
         #architect-node.visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
         .architect-core { position: absolute; top: -20px; right: 30px; width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; box-shadow: 0 0 30px #f59e0b; animation: pulse-core 2s infinite alternate; z-index: 10; cursor: pointer; }
         @keyframes pulse-core { 0% { transform: scale(1); filter: brightness(1); } 100% { transform: scale(1.2); filter: brightness(1.5); box-shadow: 0 0 50px #f59e0b; } }
+
+        /* MOBILE RESPONSIVE OVERRIDES */
+        @media (max-width: 768px) {
+            #architect-node { bottom: 10px; right: 5%; width: 90%; }
+            #architect-node .p-8 { padding: 1.5rem; }
+            #agent-log { height: 250px; font-size: 10px; }
+            .text-7xl { font-size: 3.5rem; }
+            .text-9xl { font-size: 4rem; }
+            .draw-logo { font-size: 4rem; }
+            nav .px-10 { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .holo-card { padding: 2rem !important; }
+        }
 
         /* INTRO */
         #intro-overlay { position: fixed; inset: 0; background: #030305; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 1s ease 3s; }
