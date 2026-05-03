@@ -153,9 +153,12 @@
                 <input type="password" id="auth-password" placeholder="ACCESS_KEY" required class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 focus:outline-none focus:border-amber-hologram text-sm font-mono tracking-widest transition-all">
                 <button type="submit" class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-xs uppercase tracking-[0.3em] font-mono hover:bg-white transition-colors shadow-2xl">Establish Sync</button>
             </form>
-            <div class="mt-10 flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
-                <button onclick="toggleAuth()" id="auth-toggle-btn" class="text-amber-hologram hover:underline">Create Record</button>
-                <button onclick="closeAuth()" class="text-gray-600">Abort</button>
+            <div class="mt-10 flex flex-col gap-4">
+                <div class="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
+                    <button onclick="toggleAuth()" id="auth-toggle-btn" class="text-amber-hologram hover:underline">Create Record</button>
+                    <button onclick="closeAuth()" class="text-gray-600">Abort</button>
+                </div>
+                <button onclick="forgotPassword()" class="text-[8px] font-mono uppercase tracking-[0.3em] text-gray-700 hover:text-amber-hologram text-left transition-colors">Forgot Access Key?</button>
             </div>
         </div>
     </div>
@@ -197,6 +200,7 @@
     <main class="relative z-10">
         <!-- HOME VIEW -->
         <div id="home-view" class="view-section">
+            <!-- Hero -->
             <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-32">
                 <div class="max-w-6xl mx-auto">
                     <div class="inline-flex items-center gap-4 border border-white/10 bg-white/5 rounded-full px-6 py-2.5 mb-10 font-mono text-[10px] uppercase tracking-[0.3em] text-teal-data backdrop-blur-2xl">
@@ -229,10 +233,88 @@
                         <div class="holo-card p-12 rounded-[40px] flex flex-col border-amber-hologram/40 shadow-[0_0_40px_rgba(245,158,11,0.1)]"><div class="flex justify-between items-start mb-12"><span class="tier-badge tier-premium">AFX Premium</span><span class="price-tag">$99</span></div><h3 class="text-3xl font-bold mb-6 uppercase text-amber-hologram">Prompt-Editable</h3><p class="text-gray-300 text-sm leading-relaxed mb-10 flex-grow">Mutate your entire UI, layout, and logic live via natural language prompts.</p><button class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest shadow-xl">Deploy Ecosystem</button></div>
                     </div>
                 </section>
-                
-                <!-- 02 APPS, 03 AGENTS, etc. (Full UI) -->
-                <!-- ... existing sectors ... -->
+
+                <!-- 02 APPS -->
+                <section id="apps">
+                    <div class="flex justify-between items-end mb-16 border-b border-white/5 pb-10">
+                        <span class="text-8xl font-bold text-white/5 font-mono">/02</span>
+                        <div class="text-right"><h2 class="text-6xl font-bold tracking-tighter">Mobile Engineering</h2><p class="font-mono text-xs text-amber-hologram uppercase tracking-[0.4em] mt-4">iOS & Android Node Structures</p></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Simple Node</span><span class="price-tag">$29</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Native Core</h3><p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Native performance nodes with immersive fluid motion design.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Initialize</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-white/20"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Signature Node</span><span class="price-tag">$69</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Sync Node</h3><p class="text-gray-400 text-sm leading-relaxed mb-10 flex-grow">Cross-platform integration with real-time cloud data and user synchronization.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Initialize</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-amber-hologram/40 shadow-[0_0_40px_rgba(245,158,11,0.1)]"><div class="flex justify-between items-start mb-12"><span class="tier-badge tier-premium">AFX Premium</span><span class="price-tag">$149</span></div><h3 class="text-3xl font-bold mb-6 uppercase text-amber-hologram">Agentic Mobile</h3><p class="text-gray-300 text-sm leading-relaxed mb-10 flex-grow">Self-evolving mobile code that rewrites features based on verbal directives.</p><button class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest shadow-xl">Initialize Node</button></div>
+                    </div>
+                </section>
+
+                <!-- 03 WORKFORCE -->
+                <section id="agents">
+                    <div class="flex justify-between items-end mb-16 border-b border-white/5 pb-10">
+                        <div><h2 class="text-6xl font-bold tracking-tighter">AI Workforce</h2><p class="font-mono text-xs text-teal-data uppercase tracking-[0.4em] mt-4">Agentic Engineering Workforce</p></div>
+                        <span class="text-8xl font-bold text-white/5 font-mono">/03</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Task Node</span><span class="price-tag">$12</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Simple Agent</h3><p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Automate one specific task with 100% accuracy and extreme speed.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Summon Node</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-white/20"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Context Node</span><span class="price-tag">$39</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Signature Agent</h3><p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Equipped with deep vector memory and multi-step reasoning capabilities.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Summon Node</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-amber-hologram/40 shadow-[0_0_40px_rgba(245,158,11,0.1)]"><div class="flex justify-between items-start mb-12"><span class="tier-badge tier-premium">Premium Agent</span><span class="price-tag">$89</span></div><h3 class="text-3xl font-bold mb-6 uppercase text-amber-hologram">Autonomous Exec</h3><p class="text-gray-300 text-sm leading-relaxed mb-10 flex-grow">The ultimate employee. Autonomous decision making and API orchestration.</p><button class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest shadow-xl">Summon Node</button></div>
+                    </div>
+                </section>
+
+                <!-- 04 AUTOMATION -->
+                <section id="automation">
+                    <div class="flex justify-between items-end mb-16 border-b border-white/5 pb-10">
+                        <span class="text-8xl font-bold text-white/5 font-mono">/04</span>
+                        <div class="text-right"><h2 class="text-6xl font-bold tracking-tighter">Operational Auto</h2><p class="font-mono text-xs text-amber-hologram uppercase tracking-[0.4em] mt-4">Enterprise Automation & Scale</p></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Growth Node</span><span class="price-tag">$19</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Viral Engine</h3><p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Autonomous YouTube/Social Media pipelines for mass engagement.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Activate</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-white/20"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Data Node</span><span class="price-tag">$55</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Data Synapse</h3><p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Deep extraction and processing of internal company data systems.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Activate</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-amber-hologram/40 shadow-[0_0_40px_rgba(245,158,11,0.1)]"><div class="flex justify-between items-start mb-12"><span class="tier-badge tier-premium">Scale Node</span><span class="price-tag">$115</span></div><h3 class="text-3xl font-bold mb-6 uppercase text-amber-hologram">Orchestration</h3><p class="text-gray-300 text-sm leading-relaxed mb-10 flex-grow">Mass lead-gen and automated infrastructure scaling control layer.</p><button class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest shadow-xl">Activate</button></div>
+                    </div>
+                </section>
+
+                <!-- 05 NEURAL -->
+                <section id="neural">
+                    <div class="flex justify-between items-end mb-16 border-b border-white/5 pb-10">
+                        <div><h2 class="text-6xl font-bold tracking-tighter">Neural Synthesis</h2><p class="font-mono text-xs text-teal-data uppercase tracking-[0.4em] mt-4">Synthetic Aesthetic Pipelines</p></div>
+                        <span class="text-8xl font-bold text-white/5 font-mono">/05</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Visual Node</span><span class="price-tag">$7</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Visuals</h3><p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Studio-quality AI imagery and consistent brand asset synthesis.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Generate</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-white/20"><div class="flex justify-between items-start mb-12"><span class="tier-badge">Motion Node</span><span class="price-tag">$25</span></div><h3 class="text-3xl font-bold mb-6 uppercase">Cinematics</h3><p class="text-gray-500 text-sm leading-relaxed mb-10 flex-grow">Cinematic generative video pipelines and high-end synthetic avatars.</p><button class="w-full bg-white/5 border border-white/10 py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest hover:bg-amber-hologram hover:text-obsidian transition-all">Generate</button></div>
+                        <div class="holo-card p-12 rounded-[40px] flex flex-col border-amber-hologram/40 shadow-[0_0_40px_rgba(245,158,11,0.1)]"><div class="flex justify-between items-start mb-12"><span class="tier-badge tier-premium">Narrative Node</span><span class="price-tag">$15</span></div><h3 class="text-3xl font-bold mb-6 uppercase text-amber-hologram">Recursive Loops</h3><p class="text-gray-300 text-sm leading-relaxed mb-10 flex-grow">Self-sustaining viral content loops designed for 100% engagement.</p><button class="w-full bg-amber-hologram text-obsidian font-bold py-5 rounded-2xl text-[10px] font-mono uppercase tracking-widest shadow-xl">Boot Engine</button></div>
+                    </div>
+                </section>
+
+                <!-- VISION / MANIFESTO -->
+                <section id="vision" class="py-20 border-t border-white/10 relative overflow-hidden">
+                    <div class="scanline"></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                        <div>
+                            <h2 class="text-6xl font-bold tracking-tighter uppercase mb-10 leading-none">The AFX <br><span class="text-amber-hologram">Manifesto.</span></h2>
+                            <div class="space-y-8 font-mono text-sm text-gray-400 manifesto-text">
+                                <p class="text-white text-lg font-sans font-bold border-l-2 border-amber-hologram pl-6 italic">"We are no longer building tools for humans. We are building environments for agents."</p>
+                                <p>At <span class="text-white">AFX.AI</span>, we believe that the digital era of static grids is over. The future belongs to sentient architecture—software that listens, understands, and mutates in real-time to serve the operator.</p>
+                                <p>Our vision is to bridge the gap between complex engineering and natural human intent. Through our <span class="text-amber-hologram">Prompt-Editable Ecosystems</span>, we empower founders to command their digital real estate as easily as they would an employee.</p>
+                                <p>What makes us different? We don't just write code. We architect autonomous Executives that manage your growth while you sleep. Welcome to the Karachi Tech Hub's elite engineering nexus.</p>
+                            </div>
+                            <div class="mt-16">
+                                <p class="text-[10px] text-gray-600 uppercase tracking-widest mb-2 font-mono">Architecture Directed by</p>
+                                <h4 class="founder-signature text-3xl">Syed Ahmed Afroz Shah</h4>
+                            </div>
+                        </div>
+                        <div class="holo-glass p-1 rounded-[50px]"><div class="holo-card p-12 rounded-[48px] bg-obsidian/80"><h3 class="text-2xl font-bold mb-8 uppercase tracking-tighter">Why AFX Node?</h3><ul class="space-y-6"><li class="flex gap-5"><div class="w-10 h-10 rounded-full bg-teal-data/10 flex items-center justify-center text-teal-data"><i data-lucide="zap" class="w-5 h-5"></i></div><div><h4 class="font-bold text-sm uppercase">Zero Latency Sync</h4><p class="text-xs text-gray-500 mt-1">Our nodes are optimized for real-time data orchestration.</p></div></li><li class="flex gap-5"><div class="w-10 h-10 rounded-full bg-amber-hologram/10 flex items-center justify-center text-amber-hologram"><i data-lucide="bot" class="w-5 h-5"></i></div><div><h4 class="font-bold text-sm uppercase">Autonomous Executives</h4><p class="text-xs text-gray-500 mt-1">Self-refactoring agents that manage your API workflows.</p></div></li><li class="flex gap-5"><div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white"><i data-lucide="shield-check" class="w-5 h-5"></i></div><div><h4 class="font-bold text-sm uppercase">Neural Security</h4><p class="text-xs text-gray-500 mt-1">Advanced identity link encryption for every node.</p></div></li></ul></div></div>
+                    </div>
+                </section>
             </div>
+
+            <!-- HOME FOOTER -->
+            <footer class="py-20 border-t border-white/5 text-center bg-obsidian-light relative z-20">
+                <div class="max-w-7xl mx-auto px-6">
+                    <p class="font-mono text-[10px] text-amber-hologram uppercase tracking-[0.5em] mb-4">Directed & Architected by Syed Ahmed Afroz Shah</p>
+                    <p class="font-mono text-[9px] text-gray-600 uppercase tracking-[0.3em]">&copy; 2026 AFX.AI • All Rights Reserved.</p>
+                </div>
+            </footer>
         </div>
 
         <!-- DASHBOARD VIEW -->
@@ -243,20 +325,42 @@
                         <h2 class="text-7xl font-bold tracking-tighter uppercase mb-4">Node Telemetry</h2>
                         <div class="flex items-center gap-4"><div class="w-2 h-2 bg-amber-hologram rounded-full animate-ping"></div><p class="font-mono text-xs text-amber-hologram uppercase tracking-[0.5em]">Operational Link Established</p></div>
                     </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 w-full lg:w-auto">
+                        <div class="holo-glass p-6 rounded-3xl border-teal-data/20"><p class="font-mono text-[9px] text-gray-500 uppercase tracking-widest mb-2">Neural Load</p><p class="text-3xl font-bold font-mono text-teal-data">14.2%</p><div class="stat-bar mt-3"><div class="stat-progress" style="width: 14.2%; background: #2dd4bf;"></div></div></div>
+                        <div class="holo-glass p-6 rounded-3xl border-amber-hologram/20"><p class="font-mono text-[9px] text-gray-500 uppercase tracking-widest mb-2">Memory Sync</p><p class="text-3xl font-bold font-mono text-amber-hologram">0.02ms</p><div class="stat-bar mt-3"><div class="stat-progress" style="width: 88%"></div></div></div>
+                        <div class="holo-glass p-6 rounded-3xl border-white/5"><p class="font-mono text-[9px] text-gray-500 uppercase tracking-widest mb-2">Agent clusters</p><p class="text-3xl font-bold font-mono text-white">1,204</p><div class="stat-bar mt-3"><div class="stat-progress" style="width: 65%; background: #fff;"></div></div></div>
+                        <div class="holo-glass p-6 rounded-3xl border-white/5"><p class="font-mono text-[9px] text-gray-500 uppercase tracking-widest mb-2">Node Uptime</p><p class="text-3xl font-bold font-mono text-white">99.9%</p><div class="stat-bar mt-3"><div class="stat-progress" style="width: 99.9%; background: #fff;"></div></div></div>
+                    </div>
                 </header>
-                <div id="live-logs" class="font-mono text-[10px] text-gray-500 space-y-4"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                    <div class="lg:col-span-3 space-y-8">
+                        <div class="holo-glass p-10 rounded-[40px] text-center border-t-2 border-t-amber-hologram relative overflow-hidden"><div class="scanline"></div><div class="w-24 h-24 rounded-full bg-amber-hologram/10 border-2 border-amber-hologram/30 flex items-center justify-center mx-auto mb-8"><i data-lucide="user" class="w-10 h-10 text-amber-hologram"></i></div><h3 id="dash-op-name" class="text-2xl font-bold mb-2 uppercase tracking-tighter">Operator_01</h3><span class="font-mono text-[9px] text-amber-hologram/60 uppercase tracking-[0.3em]">Clearance: root_access</span><div class="mt-10 grid grid-cols-2 gap-4 border-t border-white/5 pt-10"><div><p class="text-[8px] text-gray-600 font-mono uppercase mb-1">Credits</p><p class="text-xl font-bold font-mono text-white">12.5k</p></div><div><p class="text-[8px] text-gray-600 font-mono uppercase mb-1">Nodes</p><p class="text-xl font-bold font-mono text-white">08</p></div></div></div>
+                        <nav class="holo-glass rounded-[30px] p-2 space-y-1 font-mono text-[10px] font-bold uppercase tracking-widest"><button class="w-full text-left p-5 rounded-2xl bg-amber-hologram text-obsidian flex items-center gap-4 font-bold uppercase"><i data-lucide="monitor" class="w-4 h-4"></i> Overview</button><button class="w-full text-left p-5 rounded-2xl hover:bg-white/5 text-gray-500 flex items-center gap-4 transition-all font-bold uppercase"><i data-lucide="activity" class="w-4 h-4"></i> Loops</button><button onclick="logout()" class="w-full text-left p-5 rounded-2xl hover:bg-red-500/10 text-red-500 flex items-center gap-4 transition-all mt-4 border-t border-white/5 pt-10 font-bold uppercase"><i data-lucide="power" class="w-4 h-4"></i> Disconnect</button></nav>
+                    </div>
+                    <div class="lg:col-span-9 space-y-10">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div class="holo-card p-10 rounded-[40px] h-[400px] flex flex-col"><h3 class="font-bold text-sm text-white mb-8 flex items-center gap-3 uppercase tracking-widest"><i data-lucide="git-merge" class="w-4 h-4 text-amber-hologram"></i> Neural Connectivity</h3><div class="flex-grow flex items-center justify-center relative"><div class="absolute inset-0 flex items-center justify-center opacity-20"><div class="w-[80%] h-1 bg-amber-hologram blur-xl animate-pulse"></div></div><svg class="w-full h-full" viewBox="0 0 400 200"><path d="M0 100 Q 50 20, 100 100 T 200 100 T 300 100 T 400 100" fill="none" stroke="#f59e0b" stroke-width="2" class="animate-pulse" /><path d="M0 120 Q 50 180, 100 120 T 200 120 T 300 120 T 400 120" fill="none" stroke="#2dd4bf" stroke-width="1" opacity="0.5" /></svg></div></div>
+                            <div class="holo-card p-10 rounded-[40px] h-[400px] flex flex-col overflow-hidden"><h3 class="font-bold text-sm text-white mb-8 flex items-center gap-3 uppercase tracking-widest"><i data-lucide="list" class="w-4 h-4 text-amber-hologram"></i> System Feed</h3><div id="live-logs" class="flex-grow font-mono text-[10px] text-gray-500 space-y-4 overflow-y-auto no-scrollbar"></div></div>
+                        </div>
+                        <div class="holo-glass rounded-[40px] overflow-hidden mb-10"><div class="p-8 border-b border-white/5 bg-white/5 flex justify-between items-center"><h3 class="font-bold text-xs uppercase tracking-[0.3em] text-white">Active Operational Entities</h3><div class="flex gap-4"><span class="px-3 py-1 rounded bg-teal-data/10 text-teal-data text-[8px] font-mono border border-teal-data/20">SYSTEM_STABLE</span></div></div><div class="overflow-x-auto"><table class="w-full text-left font-mono text-[10px] uppercase tracking-widest"><thead><tr class="text-gray-600 border-b border-white/5"><th class="p-8">Entity_ID</th><th class="p-8">Class</th><th class="p-8">Status</th><th class="p-8">Latency</th><th class="p-8">Control</th></tr></thead><tbody class="text-gray-400"><tr class="border-b border-white/5 hover:bg-white/5 transition-all"><td class="p-8 text-white font-bold">#AFX-CORE-01</td><td class="p-8">Architect</td><td class="p-8 text-teal-data font-bold">● Sync</td><td class="p-8">0.01ms</td><td class="p-8"><button class="text-amber-hologram hover:text-white transition-colors border border-amber-hologram/30 px-4 py-2 rounded-lg font-bold">Manage</button></td></tr></tbody></table></div></div>
+                    </div>
+                </div>
             </section>
+            <footer class="py-12 border-t border-white/5 text-center bg-obsidian-light relative z-20">
+                <p class="font-mono text-[9px] text-gray-600 uppercase tracking-[0.5em]">Operational Session: Secure // Directed & Created by Syed Ahmed Afroz Shah</p>
+            </footer>
         </div>
     </main>
 
-    <!-- Global Architect Terminal (v2.0.0-PRO) -->
+    <!-- Global Architect Terminal -->
     <div id="architect-node" class="holo-glass rounded-[40px] flex flex-col overflow-hidden shadow-2xl">
         <div class="architect-core"></div>
         <div class="bg-black/80 p-6 border-b border-white/10 flex justify-between items-center relative">
             <div class="scanline"></div>
             <div>
-                <h4 class="font-bold text-xs text-white uppercase tracking-[0.3em] flex items-center gap-3"><i data-lucide="cpu" class="w-4 h-4 text-amber-hologram"></i> Sentient Architect <span class="text-[8px] text-gray-700">v2.0.0-PRO</span></h4>
-                <p class="font-mono text-[8px] text-teal-data uppercase tracking-widest mt-1">Direct Neural Command Sync</p>
+                <h4 class="font-bold text-xs text-white uppercase tracking-[0.3em] flex items-center gap-3"><i data-lucide="cpu" class="w-4 h-4 text-amber-hologram"></i> Sentient Architect</h4>
+                <p class="font-mono text-[8px] text-teal-data uppercase tracking-widest mt-1">Direct Neural command access</p>
             </div>
             <button onclick="document.getElementById('architect-node').classList.remove('visible')" class="text-gray-600 hover:text-white transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
@@ -273,35 +377,97 @@
     <script>
         lucide.createIcons();
 
-        // INTRO
+        // INTRO SEQUENCE
         window.addEventListener('load', () => {
             const intro = document.getElementById('intro-overlay');
-            if (intro) { setTimeout(() => { intro.style.opacity = '0'; setTimeout(() => intro.remove(), 1000); }, 3500); }
+            if (intro) {
+                setTimeout(() => {
+                    intro.style.opacity = '0';
+                    setTimeout(() => intro.remove(), 1000);
+                }, 3500);
+            }
         });
 
-        // ROUTER
+        // ROUTER SYSTEM
         const views = { home: document.getElementById('home-view'), dashboard: document.getElementById('dashboard-view') };
         window.router = {
             navigate: (viewName) => {
-                if (viewName === 'dashboard' && !localStorage.getItem('afx_session')) { openAuth(); return; }
+                const isLoggedIn = localStorage.getItem('afx_session');
+                if (viewName === 'dashboard' && !isLoggedIn) { openAuth(); return; }
                 Object.keys(views).forEach(v => { if (views[v]) views[v].classList.add('view-hidden'); });
-                if (views[viewName]) views[viewName].classList.remove('view-hidden');
+                setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    if (views[viewName]) views[viewName].classList.remove('view-hidden');
+                }, 50);
             }
         };
 
-        // AUTH
+        // AUTH & PERSISTENCE
         const authModal = document.getElementById('auth-modal');
+        const authForm = document.getElementById('auth-form');
+        const syncInit = document.getElementById('sync-init');
+        const userHud = document.getElementById('user-hud');
+        const operatorName = document.getElementById('operator-name');
+        let isLogin = true;
+
         const openAuth = () => authModal && authModal.classList.add('active');
         const closeAuth = () => authModal && authModal.classList.remove('active');
-        
-        document.getElementById('auth-form')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('auth-email').value;
-            localStorage.setItem('afx_session', JSON.stringify({ email, name: email.split('@')[0] }));
-            location.reload();
-        });
+        const toggleAuth = () => {
+            isLogin = !isLogin;
+            const title = document.getElementById('auth-title');
+            const btn = document.getElementById('auth-toggle-btn');
+            if (title) title.textContent = isLogin ? 'Initialize Link' : 'Record Entity';
+            if (btn) btn.textContent = isLogin ? 'Create Record' : 'Login Node';
+        };
 
-        // NEURAL PROXY ARCHITECTURE (v2.0.0-PRO)
+        if (authForm) {
+            authForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('auth-email').value;
+                const pass = document.getElementById('auth-password').value;
+                const users = JSON.parse(localStorage.getItem('afx_users_db') || '[]');
+                if (isLogin) {
+                    const user = users.find(u => u.email === email && u.pass === pass);
+                    if (user) loginSuccess(user);
+                    else alert("Auth failure.");
+                } else {
+                    if (users.find(u => u.email === email)) return alert("Exists.");
+                    const newUser = { email, pass, name: email.split('@')[0] };
+                    users.push(newUser);
+                    localStorage.setItem('afx_users_db', JSON.stringify(users));
+                    loginSuccess(newUser);
+                }
+            });
+        }
+
+        const loginSuccess = (user) => {
+            localStorage.setItem('afx_session', JSON.stringify(user));
+            if (operatorName) operatorName.textContent = user.name.toUpperCase();
+            if (syncInit) syncInit.classList.add('hidden');
+            if (userHud) userHud.classList.remove('hidden');
+            closeAuth();
+            router.navigate('dashboard');
+        };
+
+        const logout = () => { localStorage.removeItem('afx_session'); location.reload(); };
+
+        const forgotPassword = () => {
+            const emailInput = document.getElementById('auth-email');
+            if (!emailInput || !emailInput.value) return alert("Enter email first.");
+            const users = JSON.parse(localStorage.getItem('afx_users_db') || '[]');
+            const user = users.find(u => u.email === emailInput.value);
+            if (user) alert(`RECOVERY_SYNC: Your Access Key is "${user.pass}"`);
+            else alert("Node not found.");
+        };
+
+        const currentSession = JSON.parse(localStorage.getItem('afx_session'));
+        if (currentSession) {
+            if (operatorName) operatorName.textContent = currentSession.name.toUpperCase();
+            if (syncInit) syncInit.classList.add('hidden');
+            if (userHud) userHud.classList.remove('hidden');
+        }
+
+        // NEURAL PROXY ARCHITECTURE (v2.5.0-PRO)
         const PROXY_URL = "https://long-shadow-46ecneural-core-proxy.syedahmedafrozshah25.workers.dev";
         const PERSONA = `You are the AFX.AI Sentient Architect (v2.5.0-PRO), a high-end AI node based in Karachi, architected by Syed Ahmed Afroz Shah. 
 Your vibe: Professional, cyberpunk, visionary, yet humanly understandable and concise. No robotic fluff. 
@@ -369,9 +535,14 @@ Directives:
             if (!val) return;
             agentInput.value = '';
             appendLog(val.toUpperCase());
+
+            const lowerVal = val.toLowerCase();
+            if (lowerVal.includes('dash')) { router.navigate('dashboard'); appendLog('ROUTING_TO_DASHBOARD', true); return; }
+            if (lowerVal.includes('home')) { router.navigate('home'); appendLog('ROUTING_TO_HOME', true); return; }
+
             appendLog('THINKING...', true);
-            
             const brainResponse = await callNeuralBrain(val);
+            
             if (agentLog.lastChild && agentLog.lastChild.textContent.includes('THINKING...')) {
                 agentLog.lastChild.remove();
             }
@@ -381,15 +552,19 @@ Directives:
         if (agentSendBtn) agentSendBtn.addEventListener('click', handleDirective);
         if (agentInput) agentInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleDirective(); });
 
-        // LOGGING
-        setInterval(() => {
+        // LIVE LOGS
+        const liveLogsContainer = document.getElementById('live-logs');
+        if (liveLogsContainer) {
             const logOptions = ["LOOP_#01: OK", "SYNCING_KARACHI...", "DATA_ENCRYPTED", "WORKFORCE_ACTIVE"];
-            const log = logOptions[Math.floor(Math.random() * logOptions.length)];
-            const p = document.createElement('p');
-            p.className = "flex justify-between border-b border-white/5 pb-2 animate-pulse";
-            p.innerHTML = `<span>[SYSTEM] ${log}</span> <span class="text-teal-data">OK</span>`;
-            document.getElementById('live-logs')?.prepend(p);
-        }, 3000);
+            setInterval(() => {
+                const log = logOptions[Math.floor(Math.random() * logOptions.length)];
+                const p = document.createElement('p');
+                p.className = "flex justify-between border-b border-white/5 pb-2 animate-pulse";
+                p.innerHTML = `<span>[SYSTEM] ${log}</span> <span class="text-teal-data">OK</span>`;
+                liveLogsContainer.prepend(p);
+                if (liveLogsContainer.children.length > 12) liveLogsContainer.lastChild.remove();
+            }, 3000);
+        }
     </script>
 </body>
 </html>
