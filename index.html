@@ -78,8 +78,10 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        /* CORE IDENTITY: LIQUID OBSIDIAN & HOLOGRAPHIC AMBER */
-        body { background-color: #030305; color: #e5e5e5; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; margin: 0; padding: 0; }
+        /* AGGRESSIVE MOBILE OVERRIDE & BOX RESET */
+        * { box-sizing: border-box; }
+        body { background-color: #030305; color: #e5e5e5; overflow-x: hidden; width: 100%; position: relative; font-family: 'Space Grotesk', sans-serif; margin: 0; padding: 0; }
+        
         .bg-grid { background-size: 60px 60px; background-position: center center; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.4; mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent); background-image: linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px); }
         .ambient-orb { position: fixed; border-radius: 50%; filter: blur(150px); z-index: 0; pointer-events: none; animation: float 20s infinite ease-in-out alternate; }
         .orb-1 { top: -10%; left: -10%; width: 600px; height: 600px; background: rgba(245, 158, 11, 0.12); }
@@ -111,14 +113,17 @@
 
         /* MOBILE RESPONSIVE OVERRIDES */
         @media (max-width: 768px) {
-            #architect-node { bottom: 10px; right: 5%; width: 90%; }
-            #architect-node .p-8 { padding: 1.5rem; }
-            #agent-log { height: 250px; font-size: 10px; }
-            .text-7xl { font-size: 3.5rem; }
-            .text-9xl { font-size: 4rem; }
-            .draw-logo { font-size: 4rem; }
-            nav .px-10 { padding-left: 1.5rem; padding-right: 1.5rem; }
-            .holo-card { padding: 2rem !important; }
+            #architect-node { bottom: 0; right: 0; width: 98vw; margin: 0 auto; left: 1vw; border-radius: 20px 20px 0 0; height: 80vh !important; }
+            #architect-node .p-8 { padding: 10px !important; }
+            #agent-log { height: calc(80vh - 150px); font-size: 14px; font-size: 0.9rem; }
+            #agent-input { width: 100% !important; }
+            .text-7xl { font-size: 3rem; }
+            .text-9xl { font-size: 3.5rem; }
+            .draw-logo { font-size: 3.5rem; }
+            nav .px-10 { padding-left: 1rem; padding-right: 1rem; }
+            .holo-card { padding: 1.5rem !important; box-shadow: none !important; }
+            .stat-progress { box-shadow: none !important; }
+            .ambient-orb { display: none; } /* Kill overflow orbs on mobile */
         }
 
         /* INTRO */
